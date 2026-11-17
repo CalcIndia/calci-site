@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://calci.co.in/sitemap.xml
