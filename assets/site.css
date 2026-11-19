@@ -175,6 +175,9 @@
   .tool p { margin: 0; color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
   .tool .go { margin-top: auto; padding-top: 10px; font-weight: 800; color: var(--green); font-size: 0.92rem; }
   .tool.soon { opacity: 0.72; }
+  .tool-group { margin-top: 30px; }
+  .tool-group h2 { margin: 0; }
+  .tool-group .tools { margin-top: 14px; }
   .tool .badge { position: absolute; z-index: 1; top: 14px; right: 14px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 99px; color: var(--green); background: var(--card); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
   .tool.live .badge { color: #fff; background: var(--green); }
   body.dark .tool.live .badge { color: #07110e; }
