@@ -1,0 +1,32 @@
+# Tells Bing (and other IndexNow search engines) about changed pages after every update.
+# Put [indexnow-all] in a commit message to submit every page in sitemap.xml instead.
+name: Notify Bing (IndexNow)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Wait for GitHub Pages to publish
+        run: sleep 120
+      - name: Send changed pages to IndexNow
+        env:
+          KEY: 3ea7b9df0ae8c2e724df028f2ae1c7cc
+          HOST: calci.co.in
+          MSG: ${{ github.event.head_commit.message }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" = "workflow_dispatch" ] || echo "$MSG" | grep -q "\[indexnow-all\]"; then
+            URLS=$(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's#<loc>##;s#</loc>##')
+          else
+            URLS=$(git diff --name-only HEAD~1 HEAD -- '*.html' | grep -v '^404.html$' | sed 's#index.html$##' | sed "s#^#https://$HOST/#")
+          fi
+          if [ -z "$URLS" ]; then echo "No pages changed."; exit 0; fi
+          echo "Submitting:"; echo "$URLS"
+          JSON=$(printf '%s\n' "$URLS" | python3 -c "import json,sys,os; print(json.dumps({'host': os.environ['HOST'], 'key': os.environ['KEY'], 'keyLocation': 'https://' + os.environ['HOST'] + '/' + os.environ['KEY'] + '.txt', 'urlList': [l.strip() for l in sys.stdin if l.strip()]}))")
+          curl -sS -o /dev/null -w "IndexNow answered: %{http_code}\n" -X POST "https://api.indexnow.org/indexnow" -H "Content-Type: application/json; charset=utf-8" -d "$JSON"
