@@ -23,7 +23,7 @@
 <meta name="twitter:title" content="EPF Calculator – Provident Fund Balance at Retirement | CalC">
 <meta name="twitter:description" content="Free EPF calculator for India at the 8.25% rate. Estimate your provident fund balance at retirement with yearly salary increases.">
 <meta name="twitter:image" content="https://calci.co.in/og-image.jpg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "EPF Calculator", "url": "https://calci.co.in/epf-calculator/", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "publisher": {"@type": "Organization", "name": "CalC", "url": "https://calci.co.in/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "EPF Calculator", "url": "https://calci.co.in/epf-calculator/", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}, "publisher": {"@type": "Organization", "name": "CalC", "url": "https://calci.co.in/", "sameAs": ["https://www.youtube.com/@CalcIndia"]}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Calculators", "item": "https://calci.co.in/"}, {"@type": "ListItem", "position": 2, "name": "EPF Calculator", "item": "https://calci.co.in/epf-calculator/"}]}</script>
 <style>
   :root {
@@ -670,6 +670,20 @@
   .rel-name { font-weight: 800; font-size: 1.02rem; }
   .rel-text { color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
   .rel-go { margin-top: 6px; font-weight: 800; color: var(--green); font-size: 0.88rem; }
+  .yt-ico { width: 28px; height: 20px; flex: none; }
+  .site-foot nav a.foot-yt { display: inline-flex; align-items: center; gap: 6px; }
+  .site-foot nav a.foot-yt .yt-ico { width: 20px; height: 14px; }
+  .yt-strip { display: flex; align-items: center; gap: 14px; margin: 18px 0 6px; padding: 14px 18px; border-radius: 14px; text-decoration: none; color: var(--ink);
+    background: var(--glass-card); border: 1px solid rgba(255,255,255,0.8); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 22px rgba(15,60,48,0.08);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease; }
+  body.dark .yt-strip { border-color: rgba(255,255,255,0.10); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 26px rgba(0,0,0,0.35); }
+  .yt-strip:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(15,60,48,0.16); }
+  .yt-strip .yt-ico { width: 40px; height: 28px; }
+  .yt-txt { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+  .yt-txt b { font-weight: 800; font-size: 1rem; }
+  .yt-txt span { color: var(--muted); font-size: 0.88rem; line-height: 1.45; }
+  .yt-go { font-weight: 800; color: var(--green); font-size: 0.88rem; white-space: nowrap; }
+  @media (max-width: 560px) { .yt-strip { flex-wrap: wrap; } .yt-go { width: 100%; padding-left: 54px; } }
 </style>
 <script type="application/ld+json">
 {
@@ -965,6 +979,7 @@
     </section>
   </div>
 
+  <a class="yt-strip" href="https://www.youtube.com/@CalcIndia" target="_blank" rel="noopener"><svg class="yt-ico" viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="6" fill="#ff0033"/><path d="M11.2 5.6v8.8L18.8 10z" fill="#fff"/></svg><span class="yt-txt"><b>See the EPF Calculator explained in 60 seconds</b><span>Short videos that work through real examples on CalC. New one every day.</span></span><span class="yt-go">Watch on YouTube →</span></a>
   <section class="related" aria-label="More calculators">
     <h2>More free calculators</h2>
     <div class="rel-grid"><a class="rel-card" href="/retirement-calculator/"><span class="rel-name">Retirement Calculator</span><span class="rel-text">Find out how much money you need on the day you retire, and the monthly amount to invest to get there.</span><span class="rel-go">Open calculator →</span></a><a class="rel-card" href="/nps-calculator/"><span class="rel-name">NPS Calculator</span><span class="rel-text">Estimate your NPS corpus, the lump sum you can take and your monthly pension.</span><span class="rel-go">Open calculator →</span></a><a class="rel-card" href="/goal-planner/"><span class="rel-name">Goal Planner</span><span class="rel-text">Enter the amount you need and when. See how much to save every month, and how realistic it is for your salary.</span><span class="rel-go">Open calculator →</span></a><a class="rel-card all" href="/"><span class="rel-name">All 15 calculators</span><span class="rel-text">See every calculator on CalC, with new ones added regularly.</span><span class="rel-go">Browse all →</span></a></div>
@@ -982,6 +997,7 @@
       <a href="/contact/">Contact</a>
       <a href="/privacy-policy/">Privacy Policy</a>
       <a href="/disclaimer/">Disclaimer</a>
+      <a class="foot-yt" href="https://www.youtube.com/@CalcIndia" target="_blank" rel="noopener"><svg class="yt-ico" viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="6" fill="#ff0033"/><path d="M11.2 5.6v8.8L18.8 10z" fill="#fff"/></svg>YouTube</a>
     </nav>
     <p>© <span class="js-year">2026</span> CalC · calci.co.in · Free calculators for planning. Results are estimates, not financial advice.</p>
   </div>
@@ -990,7 +1006,7 @@
 <script>
 /* ================= SETTINGS: change these values only ================= */
 var SETTINGS = {
-  lastUpdated: "20 November 2026",   // change whenever you edit this page
+  lastUpdated: "22 November 2026",   // change whenever you edit this page
   lightStyle: "lg6",                 // slider style in light mode (gold)
   darkStyle: "lg5",                  // slider style in dark mode (titanium)
   defaults: {"basic": 30000, "age": 30, "retire": 58, "raise": 5, "balance": 200000, "rate": 8.25},
