@@ -695,7 +695,7 @@
       "name": "Who can open an SCSS account?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Anyone aged 60 or above. People aged 55 to 60 who retired under a voluntary or superannuation scheme can open one within a month of getting their retirement money, and retired defence staff from age 50."
+        "text": "Anyone aged 60 or above. People aged 55 to 60 who retired under a voluntary or superannuation scheme can open one within three months of getting their retirement money, and retired defence staff from age 50."
       }
     },
     {
@@ -791,7 +791,7 @@
           </div>
           <div class="field choice">
             <div class="fieldrow"><span class="lbl">Term</span></div>
-            <div class="seg wide" role="group" aria-label="Term" data-choice="term"><button type="button" data-v="5" aria-pressed="true">5 years</button><button type="button" data-v="8" aria-pressed="false">8 years (with 3-year extension)</button></div>
+            <div class="seg wide" role="group" aria-label="Term" data-choice="term"><button type="button" data-v="5" aria-pressed="true">5 years</button><button type="button" data-v="8" aria-pressed="false">8 years (one 3-year extension)</button></div>
           </div>
         </div>
         <div class="split" aria-label="What you receive in total">
@@ -891,7 +891,7 @@
       <div class="step">
         <div class="step-no">3</div>
         <div class="step-title">Maturity</div>
-        <p>After 5 years you get your deposit back, or extend once for 3 more years.</p>
+        <p>After 5 years you get your deposit back, or extend it in blocks of 3 years, as many times as you like.</p>
       </div>
     </div>
 
@@ -919,7 +919,7 @@
       <div class="faq-list" id="faqList">
         <details class="qa">
           <summary><span class="q-ico" aria-hidden="true">?</span><span class="q-text">Who can open an SCSS account?</span><span class="q-chev" aria-hidden="true"></span></summary>
-          <div class="ans"><p>Anyone aged 60 or above. People aged 55 to 60 who retired under a voluntary or superannuation scheme can open one within a month of getting their retirement money, and retired defence staff from age 50.</p></div>
+          <div class="ans"><p>Anyone aged 60 or above. People aged 55 to 60 who retired under a voluntary or superannuation scheme can open one within three months of getting their retirement money, and retired defence staff from age 50.</p></div>
         </details>
         <details class="qa">
           <summary><span class="q-ico" aria-hidden="true">?</span><span class="q-text">What is the maximum deposit?</span><span class="q-chev" aria-hidden="true"></span></summary>
@@ -1000,7 +1000,7 @@ function fmt2(v) { return (Math.round(v * 100) / 100).toLocaleString("en-IN"); }
 function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
 /* Senior Citizen Savings Scheme: interest = deposit × rate ÷ 4, paid every quarter (not compounded).
-   Term 5 years, can be extended once by 3 years. Maximum deposit ₹30 lakh. */
+   Term 5 years, can be extended in blocks of 3 years, any number of times. Maximum deposit ₹30 lakh. */
 function calc(p) {
   var P = Math.min(p.deposit, 3000000), yrs = p.term === "8" ? 8 : 5, q = P * p.rate / 400, yearI = q * 4, tot = yearI * yrs;
   var rows = [], pts = [{ y: 0, v: P, g: 0, w: 0 }];
