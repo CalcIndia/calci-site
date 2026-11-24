@@ -1,0 +1,930 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Chart to Trade: Free Trading Basics Course (Education Only) – CalC</title><meta name="description" content="Free trading basics course: 22 animated lessons on past Nifty and Crude Oil Mini charts. Candles, volume, VWAP, breakouts, stop-loss, options and risk. Education only, not advice."><link rel="canonical" href="https://calci.co.in/learn-trading/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="Chart to Trade: free trading basics course"><meta property="og:description" content="Free trading basics course: 22 animated lessons on past Nifty and Crude Oil Mini charts. Candles, volume, VWAP, breakouts, stop-loss, options and risk. Education only, not advice."><meta property="og:url" content="https://calci.co.in/learn-trading/"></head><body>
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: course console - lesson tabs on top, video-style chart player + "how it connects" map side by side, caption + controls under the chart. Chart panel stays dark. */
+:root{
+  --bg:#edf2f0; --surface:#ffffff; --surface2:#f6f9f8; --ink:#0f1d1a; --muted:#566864; --line:#d3ddd9;
+  --accent:#0a8c74; --accent-ink:#ffffff; --good:#13865f; --bad:#c43c3c; --warn:#b7791f;
+  --display:"Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body:"Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --chart:#0b0f14;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0d1312; --surface:#141c1b; --surface2:#19221f; --ink:#e4ecea; --muted:#93a5a0; --line:#27332f;
+  --accent:#2cc5a4; --accent-ink:#04201a; --good:#3ccf95; --bad:#ff7a7a; --warn:#f0b35a; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0d1312; --surface:#141c1b; --surface2:#19221f; --ink:#e4ecea; --muted:#93a5a0; --line:#27332f;
+  --accent:#2cc5a4; --accent-ink:#04201a; --good:#3ccf95; --bad:#ff7a7a; --warn:#f0b35a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-0.01em}
+h1{font-size:clamp(26px,4vw,38px);font-weight:700}
+h2{font-size:clamp(19px,2.4vw,24px);font-weight:600}
+h3{font-size:16px;font-weight:600}
+p{margin:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+.brand p{color:var(--muted);max-width:62ch;margin-top:6px}
+.tabs{display:flex;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px}
+.tabs button{border:0;background:transparent;padding:8px 14px;border-radius:9px;font-weight:600;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+
+.lessons{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.lessons button{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px 6px 6px;display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;white-space:nowrap}
+.lessons .partlab{flex:0 0 auto;align-self:center;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);padding:0 4px 0 8px;white-space:nowrap}
+.lessons button .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--surface2);border:1px solid var(--line);font-family:var(--mono);font-size:12px}
+.lessons button[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.lessons button[aria-current="true"] .n{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.lessons button.done .n{border-color:var(--accent);color:var(--accent)}
+
+.player{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px;align-items:start}
+@media (max-width:900px){.player{grid-template-columns:minmax(0,1fr)}}
+.screen{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
+.screen-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.screen-head .sub{color:var(--muted);font-size:13px}
+.cvwrap{position:relative;background:var(--chart)}
+canvas.chart{display:block;width:100%;height:clamp(330px,52vw,500px)}
+.caption{padding:14px 16px 6px;min-height:118px;font-size:17px;line-height:1.55}
+.caption .step-of{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.k{color:var(--kc);font-weight:600;border-bottom:2px solid color-mix(in srgb,var(--kc) 55%,transparent);cursor:default}
+.k.dark-safe{filter:none}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 14px 14px}
+.btn{border:1px solid var(--line);background:var(--surface2);border-radius:10px;padding:8px 14px;font-weight:600}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);min-width:104px}
+.btn:disabled{opacity:.45;cursor:default}
+.dots{display:flex;gap:6px;align-items:center;margin-left:4px;flex-wrap:wrap}
+.dots button{width:10px;height:10px;border-radius:50%;border:0;padding:0;background:var(--line)}
+.dots button.on{background:var(--accent)}
+.dots button.seen{background:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.spacer{flex:1}
+select.small{border:1px solid var(--line);background:var(--surface2);border-radius:10px;padding:7px 8px}
+
+.map{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 12px 8px;min-width:0}
+.map p.hint{color:var(--muted);font-size:13px;margin:2px 2px 8px}
+.map svg{width:100%;height:auto;display:block}
+.map .node rect{fill:var(--surface2);stroke:var(--line);stroke-width:1.2;transition:all .35s}
+.map .node text{fill:var(--muted);font:600 12px var(--body);transition:fill .35s}
+.map .node.on rect{fill:color-mix(in srgb,var(--nc) 22%,var(--surface));stroke:var(--nc);stroke-width:2}
+.map .node.on text{fill:var(--ink)}
+.map path.edge{fill:none;stroke:var(--line);stroke-width:1.3;transition:stroke .35s}
+.map path.edge.on{stroke:var(--accent);stroke-width:2.6;stroke-dasharray:6 6;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-12}}
+@media (prefers-reduced-motion: reduce){.map path.edge.on{animation:none;stroke-dasharray:none}}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+.calc input,.calc select{border:1px solid var(--line);background:var(--surface2);border-radius:9px;padding:8px 10px;font-family:var(--mono);font-size:15px;color:var(--ink);width:100%}
+.result{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:14px}
+.result .cell{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface2)}
+.result .cell .lab{font-size:12px;color:var(--muted);font-weight:600}
+.result .cell .val{font-family:var(--mono);font-size:18px;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600;border:1px solid}
+.pill.ok{color:var(--good);border-color:color-mix(in srgb,var(--good) 50%,transparent);background:color-mix(in srgb,var(--good) 10%,transparent)}
+.pill.no{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 50%,transparent);background:color-mix(in srgb,var(--bad) 10%,transparent)}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.verdict{margin-top:12px;font-weight:600}
+
+/* practice */
+.prac{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
+@media (max-width:900px){.prac{grid-template-columns:minmax(0,1fr)}}
+.side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.buy{flex:1 1 130px;border:0;border-radius:10px;padding:11px 10px;font-weight:700;color:#fff}
+.buy.call{background:#0f9d7a}.buy.put{background:#d9473f}
+.buy:disabled{opacity:.4;cursor:default}
+.num{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--muted);font-weight:600;flex:1 1 120px}
+.num input{border:1px solid var(--line);background:var(--surface2);border-radius:9px;padding:8px 10px;font-family:var(--mono);font-size:15px;color:var(--ink);width:100%}
+.hud{font-size:13.5px;display:grid;gap:4px}
+.hud .line{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:3px}
+.hud .line span:last-child{font-family:var(--mono);text-align:right}
+.verdict-box{border-radius:10px;padding:8px 10px;font-weight:600;background:var(--surface2);border:1px solid var(--line)}
+.score{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.score > div{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:8px}
+.score .lab{font-size:11.5px;color:var(--muted);font-weight:600}
+.score .val{font-family:var(--mono);font-size:17px}
+.log{max-height:220px;overflow:auto;font-size:13px}
+.log table{width:100%;border-collapse:collapse}
+.log td,.log th{padding:5px 4px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.log th{color:var(--muted);font-weight:600;font-size:12px}
+.pos{color:var(--good)}.neg{color:var(--bad)}
+.tradebox{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface2);font-size:14px}
+
+/* checklist */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.stepcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.stepcard .no{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.08em}
+.stepcard ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.stepcard .go{margin-top:auto;align-self:flex-start;border:1px solid var(--line);background:var(--surface2);border-radius:8px;padding:5px 10px;font-size:13px;font-weight:600}
+.note{color:var(--muted);font-size:13.5px}
+.loading{padding:40px 16px;text-align:center;color:#9fb0ab}
+</style>
+
+<style>
+.c2t-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;max-width:1180px;margin:0 auto 10px;font:600 14px Inter,system-ui,sans-serif}
+.c2t-top a{color:var(--accent);text-decoration:none}.c2t-top a:hover{text-decoration:underline}
+.c2t-note{max-width:1180px;margin:0 auto 14px;border:1px solid var(--warn);background:color-mix(in srgb,var(--warn) 10%,transparent);border-radius:12px;padding:10px 14px;font-size:13.5px;line-height:1.5;color:var(--ink)}
+.c2t-foot{max-width:1180px;margin:28px auto 0;color:var(--muted);font-size:13px;text-align:center}.c2t-foot a{color:var(--muted)}
+</style><div class="wrap"><div class="c2t-top"><a href="/" class="c2t-home">← CalC · all free calculators</a><a href="https://www.youtube.com/@CalcIndia" target="_blank" rel="noopener" class="c2t-yt">▶ Video lessons on YouTube</a></div><div class="c2t-note" role="note"><b>Education only.</b> This course teaches how charts and options work. It is not a tip or a recommendation to buy or sell anything.
+CalC is not registered with SEBI as an investment adviser or research analyst. Every chart is past market data, more than 30 days old; option prices are examples.
+Futures &amp; options are risky: a SEBI study found 87.7% of individual equity F&amp;O traders made a net loss in FY 2025-26. Practise on paper first.</div>
+  <header class="top">
+    <div class="brand">
+      <h1>Chart to Trade</h1>
+      <p>Press play. Part 1 teaches chart reading on past Crude Oil Mini charts (more than 30 days old), candle by candle. Part 2 covers options, Nifty and the real-world side of trading. The map lights up to show which idea connects to which.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-lessons" aria-selected="true" data-view="lessons">Lessons</button>
+      <button role="tab" id="tab-practice" aria-selected="false" data-view="practice">Practice room</button>
+      <button role="tab" id="tab-checklist" aria-selected="false" data-view="checklist">Checklist</button>
+    </div>
+  </header>
+
+  <!-- LESSONS -->
+  <section id="view-lessons" class="view" style="display:flex;flex-direction:column;gap:14px">
+    <nav class="lessons" id="lessonNav" aria-label="Lessons"></nav>
+    <div class="player">
+      <div class="screen">
+        <div class="screen-head"><h2 id="lessonTitle">Loading…</h2><span class="sub mono" id="lessonDay"></span></div>
+        <div class="cvwrap"><canvas class="chart" id="lessonCanvas" aria-label="Lesson chart"></canvas></div>
+        <div class="caption" aria-live="polite"><div class="step-of" id="stepOf"></div><div id="captionText"></div></div>
+        <div class="controls">
+          <button class="btn" id="btnBack" aria-label="Previous step">◀ Back</button>
+          <button class="btn primary" id="btnPlay">▶ Play</button>
+          <button class="btn" id="btnNext" aria-label="Next step">Next ▶</button>
+          <div class="dots" id="dots"></div>
+          <span class="spacer"></span>
+          <label class="note" for="speedSel">Speed</label>
+          <select id="speedSel" class="small"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option></select>
+        </div>
+      </div>
+      <aside class="map" aria-label="How the ideas connect">
+        <h3>How it connects</h3>
+        <p class="hint">Glowing boxes are the ideas in this step. Moving lines show which idea leads to which.</p>
+        <svg id="mapSvg" viewBox="0 0 330 410" role="img" aria-label="Map of trading ideas"></svg>
+      </aside>
+    </div>
+    <section class="panel" id="calcPanel" hidden>
+      <h2>Try it with your own numbers</h2>
+      <p class="note" style="margin-top:4px">Fill in the option price you would buy at, your stop-loss and your target. The checks are the rules from the lessons.</p>
+      <div id="calcMountLesson"></div>
+    </section>
+  </section>
+
+  <!-- PRACTICE -->
+  <section id="view-practice" class="view" hidden>
+    <div class="prac">
+      <div class="screen">
+        <div class="screen-head">
+          <h2>Practice room</h2>
+          <div class="row">
+            <select id="instSel" class="small" aria-label="Market"><option value="crude">Crude Oil Mini</option><option value="nifty">Nifty 50</option></select>
+            <select id="daySel" class="small" aria-label="Pick a day"></select>
+            <button class="btn" id="btnRandom">Random day</button>
+          </div>
+        </div>
+        <div class="cvwrap"><canvas class="chart" id="pracCanvas" aria-label="Practice chart"></canvas></div>
+        <div class="controls">
+          <button class="btn" id="pNext">Next candle ▶</button>
+          <button class="btn primary" id="pPlay">▶ Play</button>
+          <select id="pSpeed" class="small" aria-label="Replay speed"><option value="1">1 candle/sec</option><option value="2" selected>2 candles/sec</option><option value="5">5 candles/sec</option></select>
+          <span class="spacer"></span>
+          <span class="note mono" id="pClock"></span>
+        </div>
+        <div class="caption" style="min-height:0;padding-top:4px;font-size:15px" id="pMsg">Real Crude Oil Mini and Nifty days from July to November 2026. Step through, decide, and the chart shows you what really happened.</div>
+      </div>
+      <div class="side">
+        <div class="panel">
+          <h3>Your trade</h3>
+          <div class="row" style="margin-top:10px">
+            <label class="num" for="pStop">Stop-loss (market points)<input id="pStop" type="number" min="5" step="5" value="30"></label>
+            <label class="num" for="pTarget">Target (market points)<input id="pTarget" type="number" min="5" step="5" value="60"></label>
+          </div>
+          <div class="note mono" id="pRR" style="margin-top:6px"></div>
+          <div class="row" style="margin-top:10px">
+            <button class="buy call" id="pCall">Buy Call<br><small style="font-weight:500">price will go up</small></button>
+            <button class="buy put" id="pPut">Buy Put<br><small style="font-weight:500">price will go down</small></button>
+          </div>
+          <div class="tradebox" id="pTrade" style="margin-top:10px">No open trade.</div>
+          <button class="btn" id="pExit" style="margin-top:8px" disabled>Exit now</button>
+        </div>
+        <div class="panel">
+          <div class="row" style="justify-content:space-between"><h3>Chart check</h3>
+            <label class="note"><input type="checkbox" id="pHints" checked> Show</label></div>
+          <div class="hud" id="pHud" style="margin-top:8px"></div>
+        </div>
+        <div class="panel">
+          <h3>Your score</h3>
+          <div class="score" style="margin-top:8px">
+            <div><div class="lab">Trades</div><div class="val" id="sN">0</div></div>
+            <div><div class="lab">Wins</div><div class="val" id="sW">0</div></div>
+            <div><div class="lab">Total ₹</div><div class="val" id="sT">0</div></div>
+          </div>
+          <div class="log" style="margin-top:8px"><table><thead><tr><th>Day</th><th>Side</th><th>In</th><th>Result</th></tr></thead><tbody id="sLog"></tbody></table></div>
+          <div class="row" style="margin-top:8px"><button class="btn" id="sClear">Clear score</button><span class="note" id="sClearMsg"></span></div>
+          <p class="note" style="margin-top:8px">₹ is an estimate for 1 lot of an option near the market price. The option moves about half as much as the market: ₹10 per option point on Crude Mini, ₹65 on Nifty, minus ₹60 charges. Nifty charts show a day-average line in place of VWAP, because the index has no volume.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section id="view-checklist" class="view" hidden>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div><h2>Before every trade</h2><p class="note" style="margin-top:4px">The whole course on one screen. Go through it top to bottom before you press Buy. Each card links to the lesson that shows it on a real chart.</p></div>
+      <div class="steps" id="stepsGrid"></div>
+      <section class="panel"><h2>Trade calculator</h2><p class="note" style="margin-top:4px">Check the money before the chart. Lot sizes: Nifty 65 units, Crude Mini 10 units.</p><div id="calcMountCheck"></div></section>
+    </div>
+  </section>
+</div>
+
+<script>
+"use strict";
+/* ---------- colours used on the dark chart (dark theme) ---------- */
+const C={bg:'#0b0f14',grid:'rgba(255,255,255,0.055)',axis:'#8b98a6',text:'#e6edf3',up:'#26a69a',dn:'#ef5350',
+  vwap:'#9acd32',blue:'#2f9bff',ceiling:'#ff9f43',floor:'#22d3ee',hi:'#facc15',entry:'#e5e7eb',stop:'#ff5c5c',target:'#34d399',
+  rsi:'#ff8a3d',macd:'#2f9bff',sig:'#ffb74d'};
+const NODE=window.NODE1={
+  candle:{label:'Candle',x:55,y:30,c:'#9aa5b1'}, volume:{label:'Volume',x:165,y:30,c:'#26a69a'}, rsi:{label:'RSI / MACD',x:275,y:30,c:'#ff8a3d'},
+  vwap:{label:'VWAP line',x:55,y:110,c:'#7fae1c'}, blue:{label:'Blue line',x:165,y:110,c:'#2f9bff'}, daytype:{label:'Type of day',x:275,y:110,c:'#a855f7'},
+  ceiling:{label:'Ceiling',x:55,y:190,c:'#f08c2e'}, floor:{label:'Floor',x:165,y:190,c:'#0fb5cf'}, decision:{label:'Call / Put / Skip',x:275,y:190,c:'#e0479e'},
+  breakout:{label:'Breakout',x:55,y:270,c:'#d4a50a'}, dip:{label:'Dip entry',x:165,y:270,c:'#d4a50a'}, money:{label:'₹ at risk',x:275,y:270,c:'#e04848'},
+  entry:{label:'Entry',x:55,y:350,c:'#7b8794'}, stop:{label:'Stop-loss',x:165,y:350,c:'#e04848'}, target:{label:'Target',x:275,y:350,c:'#12a874'}
+};
+const NODE2={
+  market:{label:'Market moves',x:55,y:30,c:'#9aa5b1'}, premium:{label:'Option price',x:165,y:30,c:'#0fb5cf'}, lot:{label:'Lot size',x:275,y:30,c:'#7b8794'},
+  strike:{label:'Strike',x:55,y:110,c:'#f08c2e'}, time:{label:'Time left',x:165,y:110,c:'#a855f7'}, news:{label:'News / events',x:275,y:110,c:'#d4a50a'},
+  order:{label:'Order type',x:55,y:190,c:'#2f9bff'}, slip:{label:'Slippage',x:165,y:190,c:'#e8862a'}, money:{label:'₹ at risk',x:275,y:190,c:'#e04848'},
+  open15:{label:'First 15 min',x:55,y:270,c:'#0fb5cf'}, pdhl:{label:'Yesterday H/L',x:165,y:270,c:'#f08c2e'}, levels:{label:'Ceiling / floor',x:275,y:270,c:'#7fae1c'},
+  mind:{label:'Emotions',x:55,y:350,c:'#e0479e'}, rules:{label:'Your rules',x:165,y:350,c:'#12a874'}, decision:{label:'Call / Put / Skip',x:275,y:350,c:'#e0479e'}
+};
+const KC={candle:'#8a96a3',premium:'#0aa9c2',lot:'#7b8794',strike:'#e8862a',time:'#a855f7',news:'#c99a00',slip:'#e8862a',pdhl:'#e8862a',levels:'#6f9c12',rules:'#12a874',mind:'#e0479e',volume:'#1f9a8c',vwap:'#6f9c12',blue:'#2f8bff',ceiling:'#e8862a',floor:'#0aa9c2',breakout:'#c99a00',dip:'#c99a00',
+  entry:'#7b8794',stop:'#e04848',target:'#12a874',rsi:'#f07a2d',macd:'#2f8bff',daytype:'#a855f7',decision:'#e0479e',money:'#e04848',call:'#0f9d7a',put:'#d9473f'};
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const tm=s=>{const [h,m]=s.split(':').map(Number);return h*60+m};
+const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const fmt=n=>Math.round(n).toLocaleString('en-IN');
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function store(k,v){try{if(v===undefined){return JSON.parse(localStorage.getItem(k))}localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+function markup(t){return t.replace(/\[\[(\w+)\|([^\]]+)\]\]/g,(m,k,txt)=>`<span class="k" data-k="${k}" style="--kc:${KC[k]||'var(--accent)'}">${txt}</span>`)}
+
+/* ---------- data ---------- */
+let DAYS={},KEYS=[],NKEYS=[];
+function prep(d){
+  const n=d.c.length; d.n=n; d.novol=d.v.every(v=>!v); d.vw=new Array(n); d.ma=new Array(n); d.rsi=new Array(n); d.macd=new Array(n); d.sig=new Array(n);
+  let pv=0,vv=0,s9=0; const q=[];
+  let e12=d.c[0],e26=d.c[0],sg=0,au=0,ad=0;
+  for(let i=0;i<n;i++){
+    const tp=(d.h[i]+d.l[i]+d.c[i])/3, v=Math.max(d.v[i],1e-9); pv+=tp*v; vv+=v; d.vw[i]=pv/vv;
+    q.push(d.c[i]); s9+=d.c[i]; if(q.length>9) s9-=q.shift(); d.ma[i]=s9/q.length;
+    e12=i?e12+(d.c[i]-e12)*2/13:d.c[0]; e26=i?e26+(d.c[i]-e26)*2/27:d.c[0];
+    const m=e12-e26; sg=i?sg+(m-sg)*2/10:m; d.macd[i]=m; d.sig[i]=sg;
+    if(i===0){d.rsi[i]=50;continue}
+    const ch=d.c[i]-d.c[i-1]; const u=Math.max(ch,0), w=Math.max(-ch,0);
+    if(i===1){au=u;ad=w}else{au+= (u-au)/14; ad+=(w-ad)/14}
+    d.rsi[i]= ad===0?100:100-100/(1+au/ad);
+  }
+  return d;
+}
+function idx(d,t){const m=typeof t==='number'?t:tm(t);for(let i=0;i<d.n;i++){if(d.m[i]>=m)return i}return d.n-1}
+
+/* ---------- chart renderer ---------- */
+class Chart{
+  constructor(cv,mode){this.cv=cv;this.ctx=cv.getContext('2d');this.mode=mode;this.panes={vol:true,rsi:false,macd:false};
+    this.ov=[];this.ovA=1;this.reveal=0;this.d=null;this.i0=0;this.i1=0;this.custom=null;
+    const ro=new ResizeObserver(()=>this.resize());ro.observe(cv);this.resize();}
+  resize(){const r=this.cv.getBoundingClientRect();const dpr=window.devicePixelRatio||1;
+    this.W=Math.max(200,r.width);this.H=Math.max(200,r.height);this.cv.width=Math.round(this.W*dpr);this.cv.height=Math.round(this.H*dpr);
+    this.ctx.setTransform(dpr,0,0,dpr,0,0);this.draw();}
+  setDay(k){this.key=k;this.d=DAYS[k];}
+  layout(){
+    const W=this.W,H=this.H,ax=W<520?46:58,top=8,bot=20,gap=6;
+    const list=[['price',5]];if(this.panes.vol)list.push(['vol',1.25]);if(this.panes.rsi)list.push(['rsi',1.4]);if(this.panes.macd)list.push(['macd',1.4]);
+    const tot=list.reduce((a,b)=>a+b[1],0);const avail=H-top-bot-gap*(list.length-1);let y=top;const P={};
+    for(const [k,w] of list){const h=avail*w/tot;P[k]={y:y,h:h};y+=h+gap}
+    return {ax,L:6,R:W-ax,P,bot:H-bot};
+  }
+  x(i,lay){const n=this.i1-this.i0+1;return lay.L+((i-this.i0)+0.5)*(lay.R-lay.L)/n}
+  bw(lay){const n=this.i1-this.i0+1;return (lay.R-lay.L)/n}
+  yRange(){
+    const d=this.d;let lo=1e12,hi=-1e12;const last=this.mode==='practice'?Math.floor(this.reveal):this.i1;
+    for(let i=this.i0;i<=Math.min(last,d.n-1);i++){lo=Math.min(lo,d.l[i]);hi=Math.max(hi,d.h[i])}
+    for(const o of this.ov){for(const p of (o._prices||[])){if(isFinite(p)){lo=Math.min(lo,p);hi=Math.max(hi,p)}}}
+    if(this.extraPrices)for(const p of this.extraPrices){lo=Math.min(lo,p);hi=Math.max(hi,p)}
+    const pad=(hi-lo)*0.08+2;return [lo-pad,hi+pad];
+  }
+  draw(){
+    const ctx=this.ctx,W=this.W,H=this.H;ctx.fillStyle=C.bg;ctx.fillRect(0,0,W,H);
+    if(this.custom){this.custom(ctx,W,H);return}
+    const d=this.d;if(!d)return;
+    const lay=this.layout(),P=lay.P,pp=P.price;const [lo,hi]=this.yRange();this.lo=lo;this.hi=hi;
+    const Y=p=>pp.y+(hi-p)/(hi-lo)*pp.h;this.Y=Y;this.lay=lay;
+    const rv=Math.min(Math.floor(this.reveal),d.n-1);const bw=this.bw(lay);const cw=Math.max(1,bw*0.68);
+    // grid + time labels
+    ctx.font=`${W<520?10:11}px "JetBrains Mono", monospace`;ctx.textBaseline='middle';
+    for(let i=this.i0;i<=this.i1&&i<d.n;i++){if(d.m[i]%60===0){const x=this.x(i,lay);ctx.strokeStyle=C.grid;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,pp.y);ctx.lineTo(x,lay.bot);ctx.stroke();
+      ctx.fillStyle=C.axis;ctx.textAlign='center';ctx.fillText(hhmm(d.m[i]),x,H-9)}}
+    // price grid
+    const step=niceStep((hi-lo)/5);ctx.textAlign='left';
+    for(let p=Math.ceil(lo/step)*step;p<=hi;p+=step){const y=Y(p);ctx.strokeStyle=C.grid;ctx.beginPath();ctx.moveTo(lay.L,y);ctx.lineTo(lay.R,y);ctx.stroke();ctx.fillStyle=C.axis;ctx.fillText(fmt(p),lay.R+5,y)}
+    // overlays under candles
+    ctx.save();ctx.beginPath();ctx.rect(0,pp.y,lay.R,pp.h);ctx.clip();
+    for(const o of this.ov){if(o.under)this.drawOv(o,lay,Y,rv)}
+    ctx.restore();
+    // candles
+    for(let i=this.i0;i<=rv;i++){
+      const x=this.x(i,lay),up=d.c[i]>=d.o[i];const col=up?C.up:C.dn;ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(x,Y(d.h[i]));ctx.lineTo(x,Y(d.l[i]));ctx.stroke();
+      const y1=Y(Math.max(d.o[i],d.c[i])),y2=Y(Math.min(d.o[i],d.c[i]));ctx.fillRect(x-cw/2,y1,cw,Math.max(1,y2-y1));
+    }
+    // lines
+    const line=(arr,col,w)=>{ctx.strokeStyle=col;ctx.lineWidth=w;ctx.beginPath();let s=false;for(let i=this.i0;i<=rv;i++){const x=this.x(i,lay),y=Y(arr[i]);if(!s){ctx.moveTo(x,y);s=true}else ctx.lineTo(x,y)}ctx.stroke()};
+    line(d.vw,C.vwap,1.8);line(d.ma,C.blue,1.3);
+    // overlays above
+    ctx.save();ctx.beginPath();ctx.rect(0,0,W,lay.bot);ctx.clip();
+    for(const o of this.ov){if(!o.under)this.drawOv(o,lay,Y,rv)}
+    ctx.restore();
+    // last price tag
+    if(rv>=this.i0){const p=d.c[rv],y=Y(p);ctx.setLineDash([2,3]);ctx.strokeStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.moveTo(lay.L,y);ctx.lineTo(lay.R,y);ctx.stroke();ctx.setLineDash([]);
+      const col=d.c[rv]>=d.o[rv]?C.up:C.dn;ctx.fillStyle=col;ctx.fillRect(lay.R+1,y-9,lay.ax-2,18);ctx.fillStyle='#fff';ctx.textAlign='left';ctx.fillText(fmt(p),lay.R+5,y)}
+    // volume
+    if(P.vol){const pv=P.vol;let mx=1;for(let i=this.i0;i<=this.i1&&i<d.n;i++)mx=Math.max(mx,d.v[i]);
+      const hl=new Set(this.ov.filter(o=>o.t==='vol').map(o=>o._i));
+      for(let i=this.i0;i<=rv;i++){const x=this.x(i,lay),h=d.v[i]/mx*(pv.h-4);const up=d.c[i]>=d.o[i];
+        ctx.fillStyle=hl.has(i)?C.hi:(up?'rgba(38,166,154,.55)':'rgba(239,83,80,.5)');ctx.fillRect(x-cw/2,pv.y+pv.h-h,cw,h)}
+      for(const o of this.ov){if(o.t==='vol'&&o._i<=rv){const x=this.x(o._i,lay),h=d.v[o._i]/mx*(pv.h-4);ctx.globalAlpha=this.ovA;ctx.strokeStyle=C.hi;ctx.lineWidth=2;ctx.strokeRect(x-cw/2-3,pv.y+pv.h-h-3,cw+6,h+3);
+        if(o.label){ctx.fillStyle=C.hi;ctx.textAlign=x>lay.R*0.7?'right':'left';ctx.fillText(o.label,x+(x>lay.R*0.7?-cw-6:cw+6),pv.y+Math.max(10,pv.h-h))}ctx.globalAlpha=1}}
+      ctx.fillStyle=C.axis;ctx.textAlign='left';ctx.fillText('Volume',lay.L+2,pv.y+8);
+      if(d.novol){ctx.fillStyle='rgba(230,237,243,.55)';ctx.textAlign='center';ctx.fillText('No volume: the Nifty index itself is not traded',(lay.L+lay.R)/2,pv.y+pv.h/2+4)}}
+    if(P.rsi){const pr=P.rsi,Yr=v=>pr.y+(100-v)/100*pr.h;ctx.setLineDash([3,3]);ctx.strokeStyle='rgba(255,255,255,.25)';for(const g of [70,30]){ctx.beginPath();ctx.moveTo(lay.L,Yr(g));ctx.lineTo(lay.R,Yr(g));ctx.stroke()}ctx.setLineDash([]);
+      ctx.fillStyle='rgba(255,138,61,.07)';ctx.fillRect(lay.L,Yr(70),lay.R-lay.L,Yr(30)-Yr(70));
+      ctx.strokeStyle=C.rsi;ctx.lineWidth=1.5;ctx.beginPath();for(let i=this.i0;i<=rv;i++){const x=this.x(i,lay),y=Yr(d.rsi[i]);i===this.i0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+      ctx.fillStyle=C.axis;ctx.fillText('RSI',lay.L+2,pr.y+8);ctx.fillText('70',lay.R+5,Yr(70));ctx.fillText('30',lay.R+5,Yr(30));
+      if(rv>=this.i0){ctx.fillStyle=C.rsi;ctx.fillText(d.rsi[rv].toFixed(0),lay.R+28,Yr(d.rsi[rv]))}}
+    if(P.macd){const pm=P.macd;let mx=1e-6;for(let i=this.i0;i<=this.i1&&i<d.n;i++)mx=Math.max(mx,Math.abs(d.macd[i]),Math.abs(d.sig[i]));
+      const Ym=v=>pm.y+pm.h/2-v/mx*(pm.h/2-3);
+      for(let i=this.i0;i<=rv;i++){const x=this.x(i,lay),hv=d.macd[i]-d.sig[i];ctx.fillStyle=hv>=0?'rgba(38,166,154,.6)':'rgba(239,83,80,.6)';const y0=Ym(0),y1=Ym(hv);ctx.fillRect(x-cw/2,Math.min(y0,y1),cw,Math.abs(y1-y0))}
+      const ml=(arr,col)=>{ctx.strokeStyle=col;ctx.lineWidth=1.4;ctx.beginPath();for(let i=this.i0;i<=rv;i++){const x=this.x(i,lay),y=Ym(arr[i]);i===this.i0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke()};
+      ml(d.macd,C.macd);ml(d.sig,C.sig);ctx.fillStyle=C.axis;ctx.fillText('MACD',lay.L+2,pm.y+8)}
+    // HUD
+    const huds=this.ov.filter(o=>o.t==='hud'||o.t==='cross');
+    if(huds.length){let y=pp.y+16;ctx.globalAlpha=this.ovA;ctx.font=`600 ${W<520?12:13}px Inter, system-ui, sans-serif`;
+      for(const o of huds){const txt=o._text;const w=ctx.measureText(txt).width+16;ctx.fillStyle='rgba(11,15,20,.82)';ctx.fillRect(lay.L+6,y-12,w,24);ctx.strokeStyle=o.color||'rgba(255,255,255,.25)';ctx.strokeRect(lay.L+6,y-12,w,24);
+        ctx.fillStyle=o.color||C.text;ctx.textAlign='left';ctx.fillText(txt,lay.L+14,y);y+=30}
+      ctx.globalAlpha=1}
+  }
+  drawOv(o,lay,Y,rv){
+    const ctx=this.ctx,d=this.d;const A=o.instant?1:this.ovA;if(A<=0)return;ctx.globalAlpha=A;
+    ctx.font=`600 ${this.W<520?10.5:11.5}px Inter, system-ui, sans-serif`;ctx.textBaseline='middle';
+    const tag=(txt,x,y,col,align='right')=>{const w=ctx.measureText(txt).width+10;const bx=align==='right'?x-w:x;ctx.fillStyle='rgba(11,15,20,.85)';ctx.fillRect(bx,y-9,w,18);ctx.strokeStyle=col;ctx.lineWidth=1;ctx.strokeRect(bx,y-9,w,18);ctx.fillStyle=col;ctx.textAlign='left';ctx.fillText(txt,bx+5,y)};
+    const bw=this.bw(lay);
+    if(o.t==='zone'){const xa=this.x(o._a,lay)-bw/2,xb=this.x(o._b,lay)+bw/2;ctx.fillStyle=o.fill||'rgba(255,255,255,.06)';ctx.fillRect(xa,lay.P.price.y,xb-xa,lay.P.price.h);
+      if(o.label){ctx.fillStyle='rgba(230,237,243,.85)';ctx.textAlign='center';ctx.fillText(o.label,(xa+xb)/2,lay.P.price.y+12)}}
+    if(o.t==='box'){const xa=this.x(o._a,lay)-bw/2,xb=this.x(o._b,lay)+bw/2;const yt=Y(o._top),yb=Y(o._bot);
+      ctx.fillStyle='rgba(255,255,255,.05)';ctx.fillRect(xa,yt,xb-xa,yb-yt);
+      for(const [p,col,lab] of [[o._top,C.ceiling,'Ceiling '+fmt(o._top)],[o._bot,C.floor,'Floor '+fmt(o._bot)]]){const y=Y(p);ctx.strokeStyle=col;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(xa,y);ctx.lineTo(xb,y);ctx.stroke();
+        ctx.setLineDash([5,4]);ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(xb,y);ctx.lineTo(lay.R,y);ctx.stroke();ctx.setLineDash([]);
+        if(o.labels!==false)tag(lab,lay.R-4,y+(col===C.ceiling?-11:11),col)}}
+    if(o.t==='lvl'){const y=Y(o.price);ctx.strokeStyle=o.color;ctx.lineWidth=o.w||1.6;if(o.dash)ctx.setLineDash(o.dash);ctx.beginPath();ctx.moveTo(o._a!=null?this.x(o._a,lay):lay.L,y);ctx.lineTo(lay.R,y);ctx.stroke();ctx.setLineDash([]);if(o.label)tag(o.label,lay.R-4,y-11,o.color)}
+    if(o.t==='touch'){for(let k=0;k<o._pts.length;k++){const [i,p]=o._pts[k];if(i>rv)continue;const x=this.x(i,lay),y=Y(p)+(o.which==='high'?-10:10);
+      ctx.fillStyle=o.which==='high'?C.ceiling:C.floor;ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#0b0f14';ctx.textAlign='center';ctx.font='700 10px Inter, sans-serif';ctx.fillText(String(k+1),x,y+0.5);ctx.font=`600 ${this.W<520?10.5:11.5}px Inter, system-ui, sans-serif`}}
+    if(o.t==='mark'&&o._i<=rv+0){const i=o._i,x=this.x(i,lay);const above=o.side!=='below';const p=above?d.h[i]:d.l[i];const y=Y(p);const col=o.color||C.hi;
+      const len=o.len||34;const y2=above?y-len:y+len;ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y2);ctx.lineTo(x,above?y-6:y+6);ctx.stroke();
+      ctx.beginPath();if(above){ctx.moveTo(x,y-3);ctx.lineTo(x-5,y-10);ctx.lineTo(x+5,y-10)}else{ctx.moveTo(x,y+3);ctx.lineTo(x-5,y+10);ctx.lineTo(x+5,y+10)}ctx.fill();
+      if(o.label){const w=ctx.measureText(o.label).width+12;let bx=x-w/2;bx=clamp(bx,lay.L+2,lay.R-w-2);const by=above?y2-10:y2+10;ctx.fillStyle='rgba(11,15,20,.9)';ctx.fillRect(bx,by-10,w,20);ctx.strokeStyle=col;ctx.lineWidth=1;ctx.strokeRect(bx,by-10,w,20);ctx.fillStyle=col;ctx.textAlign='left';ctx.fillText(o.label,bx+6,by)}}
+    if(o.t==='ring'&&o._i<=rv){const x=this.x(o._i,lay);const y=Y(o.price!=null?o.price:d.c[o._i]);ctx.strokeStyle=o.color||C.hi;ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,9,0,Math.PI*2);ctx.stroke()}
+    if(o.t==='trade'){const xa=this.x(o._i,lay);const rows=[[o.entry,C.entry,'Entry '+fmt(o.entry)]];if(o.stop!=null)rows.push([o.stop,C.stop,(o.stopLabel||'Stop ')+fmt(o.stop)]);if(o.oldStop!=null)rows.push([o.oldStop,'rgba(255,92,92,.45)','old stop '+fmt(o.oldStop)]);if(o.target!=null)rows.push([o.target,C.target,'Target '+fmt(o.target)]);
+      if(o.stop!=null&&o.target!=null){ctx.fillStyle='rgba(255,92,92,.10)';ctx.fillRect(xa,Math.min(Y(o.entry),Y(o.stop)),lay.R-xa,Math.abs(Y(o.stop)-Y(o.entry)));ctx.fillStyle='rgba(52,211,153,.10)';ctx.fillRect(xa,Math.min(Y(o.entry),Y(o.target)),lay.R-xa,Math.abs(Y(o.target)-Y(o.entry)))}
+      for(const [p,col,lab] of rows){const y=Y(p);ctx.strokeStyle=col;ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(xa,y);ctx.lineTo(lay.R,y);ctx.stroke();tag(lab,lay.R-4,y+(p===o.entry?0:(p>o.entry?-10:10)),col)}
+      ctx.fillStyle=C.entry;ctx.beginPath();ctx.arc(xa,Y(o.entry),4,0,Math.PI*2);ctx.fill()}
+    if(o.t==='rr'){const xs=(o._i!=null?this.x(o._i,lay):lay.R-120)+22;const ye=Y(o.entry),ys=Y(o.stop),yt=Y(o.target);ctx.lineWidth=10;ctx.strokeStyle='rgba(255,92,92,.85)';ctx.beginPath();ctx.moveTo(xs,ye);ctx.lineTo(xs,ys);ctx.stroke();ctx.strokeStyle='rgba(52,211,153,.9)';ctx.beginPath();ctx.moveTo(xs+14,ye);ctx.lineTo(xs+14,yt);ctx.stroke();
+      const risk=Math.abs(o.entry-o.stop),rew=Math.abs(o.target-o.entry);tag('Risk '+fmt(risk)+' pts',xs+26,(ye+ys)/2,C.stop,'left');tag('Reward '+fmt(rew)+' pts',xs+26,(ye+yt)/2,C.target,'left');tag('Reward ÷ risk = '+(rew/risk).toFixed(1),xs+26,(ye+yt)/2+(yt<ye?-22:22),'#e6edf3','left')}
+    ctx.globalAlpha=1;
+  }
+}
+function niceStep(raw){const p=Math.pow(10,Math.floor(Math.log10(raw)));const f=raw/p;return (f<1.5?1:f<3?2:f<7?5:10)*p}
+
+/* ---------- resolve overlays against a day ---------- */
+function resolve(o,d){
+  const r=Object.assign({},o);r._prices=[];
+  if(o.at)r._i=idx(d,o.at);
+  if(o.from){r._a=idx(d,o.from);r._b=Math.max(r._a,idx(d,o.to)-1)}
+  if(o.t==='box'||o.t==='touch'){let top=-1e9,bot=1e9;for(let i=r._a;i<=r._b;i++){top=Math.max(top,d.h[i]);bot=Math.min(bot,d.l[i])}r._top=top;r._bot=bot;r._prices=[top,bot];
+    if(o.t==='touch'){const tol=(top-bot)*(o.tol||0.12);const pts=[];for(let i=r._a;i<=r._b;i++){
+        if(o.which==='high'){if(d.h[i]>=top-tol&&(i===r._a||d.h[i]>=d.h[i-1])&&(i===r._b||d.h[i]>=d.h[i+1]))pts.push([i,d.h[i]])}
+        else{if(d.l[i]<=bot+tol&&(i===r._a||d.l[i]<=d.l[i-1])&&(i===r._b||d.l[i]<=d.l[i+1]))pts.push([i,d.l[i]])}}
+      const merged=[];for(const p of pts){const last=merged[merged.length-1];if(last&&p[0]-last[0]<4){if(o.which==='high'?p[1]>last[1]:p[1]<last[1])merged[merged.length-1]=p}else merged.push(p)}r._pts=merged}}
+  if(o.t==='trade'){r._prices=[o.entry,o.stop,o.target,o.oldStop].filter(v=>v!=null)}
+  if(o.t==='rr'){r._prices=[o.entry,o.stop,o.target]}
+  if(o.t==='lvl'){r._prices=[o.price]}
+  if(o.t==='hud')r._text=o.text;
+  if(o.t==='cross'){let n=0;const a=idx(d,o.from),b=idx(d,o.to)-1;let s=Math.sign(d.c[a]-d.vw[a]);for(let i=a+1;i<=b;i++){const t=Math.sign(d.c[i]-d.vw[i]);if(t&&s&&t!==s)n++;if(t)s=t}r._text=(o.prefix||'Price crossed VWAP ')+n+' times';}
+  return r;
+}
+
+/* ---------- lessons ---------- */
+const LESSONS=[
+ {title:'What a candle tells you',kind:'anatomy',steps:[
+  {cap:'Every [[candle|candle]] is a summary of 5 minutes. Watch the price move up and down during those 5 minutes.',nodes:['candle']},
+  {cap:'The first price of those 5 minutes is the <b>open</b>. It becomes one end of the candle body.',nodes:['candle']},
+  {cap:'The highest and lowest prices become the thin lines above and below, called wicks. A wick shows how far price went before it was pushed back.',nodes:['candle']},
+  {cap:'The last price is the <b>close</b>. Close higher than open makes a <b>green</b> candle: buyers won those 5 minutes.',nodes:['candle']},
+  {cap:'Close lower than open makes a <b>red</b> candle: sellers won. A long wick on top means sellers pushed price back down. A long wick at the bottom means buyers pushed it back up.',nodes:['candle']}]},
+ {title:'Volume: how many people agree',day:'2026-08-26',view:['11:00','20:30'],steps:[
+  {upto:'15:00',cap:'Under each [[candle|candle]] is a [[volume|volume]] bar: how many lots were bought and sold in those 5 minutes. Tall bar = lots of people trading. Short bar = very few.',nodes:['candle','volume'],links:[['candle','volume']]},
+  {upto:'18:10',ov:[{t:'zone',from:'12:00',to:'18:15',label:'Quiet: small candles, small volume'}],cap:'From 12:00 to 6:15 PM crude hardly moved and the volume bars stayed tiny. Nobody was in a hurry. The market was waiting.',nodes:['volume']},
+  {upto:'18:35',ov:[{t:'zone',from:'12:00',to:'18:15'},{t:'vol',at:'18:35',label:'3× normal'},{t:'mark',at:'18:35',label:'Big green candle',color:C.hi}],cap:'At 6:35 PM a big green candle closed on about 3 times the normal [[volume|volume]]. Many people bought at the same moment. A big candle with big volume means the move is real.',nodes:['candle','volume','breakout'],links:[['candle','volume'],['volume','breakout']]},
+  {upto:'20:25',ov:[{t:'vol',at:'18:35'}],cap:'And it kept going: crude climbed about 200 points in the next two hours. The link to remember: a big move only counts when [[volume|volume]] agrees with it.',nodes:['volume','breakout'],links:[['volume','breakout']]}]},
+ {title:'VWAP and the blue line',day:'2026-10-12',view:['09:00','19:00'],steps:[
+  {upto:'11:00',cap:'The green line is [[vwap|VWAP]]: the day\'s average price, giving more weight to prices where more was traded. Think of it as the day\'s "fair price".',nodes:['vwap']},
+  {upto:'14:00',cap:'When price stays <b>above</b> [[vwap|VWAP]], buyers keep paying more than the day\'s average: buyers are in control. Look at VWAP itself too: it is sloping <b>up</b>.',nodes:['vwap','daytype'],links:[['vwap','daytype']]},
+  {upto:'14:00',ov:[{t:'mark',at:'12:50',side:'below',label:'bounce',color:C.blue},{t:'mark',at:'13:20',side:'below',label:'bounce',color:C.blue}],cap:'The [[blue|blue line]] is the average of the last 9 candles, so it hugs the price. On a strong day, dips stop at the blue line and bounce.',nodes:['blue','dip'],links:[['blue','dip']]},
+  {upto:'19:00',cap:'The whole day stayed above a rising [[vwap|VWAP]]: an <b>up day</b>. Traders who follow this method only look at [[call|calls]] on a day like this.',nodes:['vwap','daytype','decision'],links:[['vwap','daytype'],['daytype','decision']]}]},
+ {title:'Three kinds of day',view:['09:00','23:30'],steps:[
+  {day:'2026-10-12',upto:'23:25',ov:[{t:'hud',text:'Up day · 12 Oct',color:'#34d399'},{t:'cross',from:'09:00',to:'23:30'}],cap:'<b>Up day.</b> Price above a [[vwap|VWAP]] that slopes up. After the morning it never went back below. This method looks at [[call|calls]] only.',nodes:['vwap','daytype','decision'],links:[['vwap','daytype'],['daytype','decision']]},
+  {day:'2026-10-06',upto:'23:25',ov:[{t:'hud',text:'Down day · 6 Oct',color:'#ff7a7a'},{t:'cross',from:'09:00',to:'23:30'}],cap:'<b>Down day.</b> After 11 AM price stayed below a [[vwap|VWAP]] that slopes down. This method looks at [[put|puts]] only. (The late bounce stayed under VWAP.)',nodes:['vwap','daytype','decision'],links:[['vwap','daytype'],['daytype','decision']]},
+  {day:'2026-10-07',upto:'23:25',ov:[{t:'hud',text:'Choppy day · 7 Oct',color:'#facc15'},{t:'cross',from:'09:00',to:'23:30'}],cap:'<b>Choppy day.</b> [[vwap|VWAP]] is flat and price crossed it 27 times. Breakouts fail on days like this. The right trade is <b>skip</b>. Doing nothing is also a decision.',nodes:['vwap','daytype','decision'],links:[['vwap','daytype'],['daytype','decision']]},
+  {day:'2026-10-07',upto:'23:25',ov:[{t:'cross',from:'09:00',to:'23:30'}],cap:'The 30-second check: 1) Is price above or below [[vwap|VWAP]]? 2) Is VWAP sloping or flat? 3) How many times has price crossed it in the last 2 hours? Three answers decide [[decision|call, put or skip]].',nodes:['vwap','daytype','decision'],links:[['vwap','daytype'],['daytype','decision']]}]},
+ {title:'Ceilings and floors',day:'2026-09-22',view:['09:00','14:00'],steps:[
+  {upto:'13:55',cap:'From 9 AM to 2 PM crude stayed inside a band. Let\'s find its edges.',nodes:['candle']},
+  {upto:'13:55',ov:[{t:'touch',from:'09:00',to:'14:00',which:'high'},{t:'lvl',price:8715,color:C.ceiling,label:'Ceiling 8,715',dash:[5,4]}],cap:'Each numbered circle is a time price got near 8,715 and was pushed back down. Two or more push-backs at the same level make a [[ceiling|ceiling]].',nodes:['ceiling','candle'],links:[['candle','ceiling']]},
+  {upto:'13:55',ov:[{t:'touch',from:'09:00',to:'14:00',which:'low'},{t:'lvl',price:8611,color:C.floor,label:'Floor 8,611',dash:[5,4]},{t:'lvl',price:8715,color:C.ceiling,label:'Ceiling 8,715',dash:[5,4],instant:true}],cap:'And each time it fell near 8,611, buyers pushed it back up. That is the [[floor|floor]].',nodes:['floor','candle'],links:[['candle','floor']]},
+  {upto:'13:55',ov:[{t:'box',from:'09:00',to:'14:00'}],cap:'[[ceiling|Ceiling]] + [[floor|floor]] = a box. Inside the box neither side is winning. Don\'t trade in the middle of a box. Wait for price to leave it.',nodes:['ceiling','floor','decision'],links:[['ceiling','decision'],['floor','decision']]}]},
+ {title:'The breakout',day:'2026-09-22',view:['09:00','18:00'],steps:[
+  {upto:'14:00',ov:[{t:'box',from:'09:00',to:'14:00'}],cap:'The box from the last lesson: [[ceiling|ceiling]] 8,715, [[floor|floor]] 8,611.',nodes:['ceiling','floor']},
+  {upto:'14:05',ov:[{t:'box',from:'09:00',to:'14:00',instant:true},{t:'mark',at:'14:05',side:'below',label:'Closed below the floor',color:C.hi},{t:'vol',at:'14:05',label:'3× normal'}],cap:'At 2:05 PM a red candle <b>closed</b> below the [[floor|floor]]. A touch is not enough; the candle has to close outside. Its [[volume|volume]] was about 3 times the box\'s normal. That is a [[breakout|breakout]].',nodes:['floor','volume','breakout'],links:[['floor','breakout'],['volume','breakout']]},
+  {upto:'14:05',ov:[{t:'box',from:'09:00',to:'14:00',instant:true},{t:'mark',at:'14:05',side:'below',label:'Closed below the floor',color:C.hi,instant:true},{t:'ring',at:'14:05'}],cap:'Check [[vwap|VWAP]] too: price is below it and it has started to bend down. Breakout down + below VWAP = a [[put|put]] signal in this method. Everything points the same way.',nodes:['breakout','vwap','decision'],links:[['breakout','decision'],['vwap','decision']]},
+  {upto:'17:55',ov:[{t:'box',from:'09:00',to:'14:00',instant:true}],cap:'Crude fell almost 300 points in the next few hours. As a sense of scale, a move like that is worth roughly ₹1,500 on one lot of a Crude Mini option, and the same move the other way costs about the same.',nodes:['breakout','decision'],links:[['breakout','decision']]}]},
+ {title:'The fake breakout',day:'2026-08-19',view:['12:30','21:00'],steps:[
+  {upto:'17:55',ov:[{t:'box',from:'13:00',to:'18:00'}],cap:'Another box: [[ceiling|ceiling]] 8,196, [[floor|floor]] 8,087.',nodes:['ceiling','floor']},
+  {upto:'18:00',ov:[{t:'box',from:'13:00',to:'18:00',instant:true},{t:'mark',at:'18:00',side:'below',label:'Big break down',color:C.hi},{t:'vol',at:'18:00',label:'3× normal'}],cap:'At 6 PM a big red candle closed below the floor on about 3 times the normal [[volume|volume]]. It looks exactly like the [[breakout|breakout]] in the last lesson…',nodes:['breakout','volume'],links:[['volume','breakout']]},
+  {upto:'18:30',ov:[{t:'box',from:'13:00',to:'18:00',instant:true},{t:'mark',at:'18:30',side:'above',label:'Closed back inside',color:C.stop}],cap:'…but by 6:30 PM price had <b>closed back inside</b> the box. A breakout that falls back in has failed. That is the moment to exit, which is exactly what the [[stop|stop-loss]] is for.',nodes:['breakout','stop'],links:[['breakout','stop']]},
+  {upto:'20:55',ov:[{t:'box',from:'13:00',to:'18:00',instant:true}],cap:'By 7:40 PM price was back above [[vwap|VWAP]] and it ended the day higher. A stop just inside the box would have cost a little. Hoping would have cost a lot.',nodes:['stop','money','vwap'],links:[['stop','money']]},
+  {upto:'20:55',ov:[{t:'box',from:'13:00',to:'18:00',instant:true}],cap:'Real or fake? Real breakouts usually come after hours of quiet, and the next 2–3 candles keep going. Fake ones snap back inside within a few candles. You can\'t always tell in advance, so every trade needs a [[stop|stop-loss]].',nodes:['breakout','stop'],links:[['breakout','stop']]}]},
+ {title:'The dip entry',day:'2026-10-12',view:['11:00','17:00'],steps:[
+  {upto:'12:45',cap:'On an up day you don\'t need to chase a big green candle. Wait for price to come back down to the [[blue|blue line]].',nodes:['daytype','blue','dip'],links:[['daytype','dip'],['blue','dip']]},
+  {upto:'12:50',ov:[{t:'mark',at:'12:50',side:'below',label:'Dip held + green close',color:C.hi}],cap:'At 12:50 price dipped to the [[blue|blue line]], stayed above [[vwap|VWAP]], and a green candle closed. That is the [[dip|dip entry]].',nodes:['blue','vwap','dip'],links:[['blue','dip'],['vwap','dip']]},
+  {upto:'12:50',ov:[{t:'trade',at:'12:50',entry:8728,stop:8657,target:8870}],cap:'[[entry|Entry]] 8,728. [[stop|Stop-loss]] just under VWAP at 8,657: if price falls below the day\'s average, the up-day idea is wrong. [[target|Target]] = twice the risk, 8,870.',nodes:['dip','entry','stop','target'],links:[['dip','entry'],['entry','stop'],['entry','target']]},
+  {upto:'16:55',ov:[{t:'trade',at:'12:50',entry:8728,stop:8657,target:8870,instant:true}],cap:'The target was reached at 3:10 PM, and every later dip to the [[blue|blue line]] was another chance on the same up day.',nodes:['target','dip'],links:[['entry','target']]}]},
+ {title:'Plan: entry, stop, target',day:'2026-09-22',view:['09:00','15:30'],calc:true,steps:[
+  {upto:'14:05',ov:[{t:'box',from:'09:00',to:'14:00',labels:false},{t:'trade',at:'14:05',entry:8603}],cap:'Let\'s plan the breakout from lesson 6. [[entry|Entry]]: the close of the breakout candle, 8,603.',nodes:['breakout','entry'],links:[['breakout','entry']]},
+  {upto:'14:05',ov:[{t:'box',from:'09:00',to:'14:00',labels:false,instant:true},{t:'trade',at:'14:05',entry:8603,stop:8663}],cap:'[[stop|Stop-loss]]: the middle of the box, 8,663. If price climbs back there, the breakout has failed. Risk = 60 points.',nodes:['entry','stop'],links:[['entry','stop']]},
+  {upto:'14:05',ov:[{t:'box',from:'09:00',to:'14:00',labels:false,instant:true},{t:'trade',at:'14:05',entry:8603,stop:8663,target:8507}],cap:'[[target|Target]]: the box was 104 points tall. Measure that again from the floor: 8,611 − 104 = 8,507. Reward = 96 points.',nodes:['entry','target'],links:[['entry','target']]},
+  {upto:'14:05',ov:[{t:'trade',at:'14:05',entry:8603,stop:8663,target:8507,instant:true},{t:'rr',at:'14:05',entry:8603,stop:8663,target:8507}],cap:'Reward ÷ risk = 96 ÷ 60 = 1.6. The rule is 1.5 or more, so this trade passes. Below 1.5, you skip it, however good the chart looks.',nodes:['stop','target','decision'],links:[['stop','decision'],['target','decision']]},
+  {upto:'14:05',ov:[{t:'trade',at:'14:05',entry:8603,stop:8663,target:8507,instant:true},{t:'hud',text:'1 lot option ≈ ½ the crude move × ₹10',color:'#e6edf3'},{t:'hud',text:'Risk ≈ ₹300 · Reward ≈ ₹480',color:'#facc15'}],cap:'In [[money|money]]: a Crude Mini option moves about half as much as crude, at ₹10 per option point. Risk ≈ ₹300, reward ≈ ₹480. Is ₹300 OK for your account? Try your own numbers in the calculator below.',nodes:['money','stop'],links:[['stop','money']]},
+  {upto:'15:25',ov:[{t:'trade',at:'14:05',entry:8603,stop:8663,target:8507,instant:true}],cap:'The [[target|target]] was hit 10 minutes later, at 2:15 PM, and the stop was never touched.',nodes:['target'],links:[['entry','target']]}]},
+ {title:'Managing the trade',day:'2026-07-16',view:['13:00','23:30'],calc:true,steps:[
+  {upto:'17:15',ov:[{t:'box',from:'13:00',to:'17:15',labels:false},{t:'trade',at:'17:15',entry:7676,stop:7632,target:7730},{t:'vol',at:'17:15',label:'5× normal'}],cap:'Breakout above 7,665 at 5:15 PM on 5 times normal volume. [[entry|Entry]] 7,676. [[stop|Stop]] 7,632 (middle of the box). [[target|Target]] 7,730 (box height 65 added on top).',nodes:['breakout','entry','stop','target'],links:[['breakout','entry'],['entry','stop'],['entry','target']]},
+  {upto:'17:40',ov:[{t:'box',from:'13:00',to:'17:15',labels:false,instant:true},{t:'trade',at:'17:15',entry:7676,stop:7676,oldStop:7632,target:7730,stopLabel:'Stop moved to entry '}],cap:'Price is halfway to the target. Move your [[stop|stop-loss]] up to your entry price. Now this trade can no longer turn into a loss.',nodes:['stop','money'],links:[['stop','money']]},
+  {upto:'17:50',ov:[{t:'box',from:'13:00',to:'17:15',labels:false,instant:true},{t:'trade',at:'17:15',entry:7676,stop:7676,target:7730,stopLabel:'Stop at entry ',instant:true},{t:'mark',at:'17:50',label:'Target hit: SELL',color:C.target}],cap:'[[target|Target]] reached at 5:50 PM. Sell. Don\'t wait for more.',nodes:['target'],links:[['entry','target']]},
+  {upto:'23:25',ov:[{t:'trade',at:'17:15',entry:7676,stop:7676,target:7730,stopLabel:'Stop at entry ',instant:true}],cap:'Look what happened next. Crude went a little higher, to 7,780, then fell all the way to 7,579, below where the breakout started. Holding on for "more" would have turned a profit into a loss.',nodes:['target','money'],links:[['target','money']]}]},
+ {title:'Is the move tired?',day:'2026-09-24',view:['18:30','23:30'],panes:{rsi:true,macd:true},steps:[
+  {upto:'20:45',cap:'[[rsi|RSI]] (bottom panels) runs from 0 to 100 and shows how stretched a move is. Above 70 = stretched up. Here RSI hit 81 after crude climbed about 140 points in an hour.',nodes:['rsi'],links:[]},
+  {upto:'20:45',cap:'[[macd|MACD]] (the lowest panel) compares a fast average of price with a slow one. The blue line shows how hard price is being pushed right now. The orange line is the same thing, smoothed. Blue above orange = the push is getting stronger. Blue crossing below orange = the push is fading. The bars show the gap between the two lines.',nodes:['rsi'],links:[]},
+  {upto:'21:35',ov:[{t:'zone',from:'21:00',to:'21:40',label:'Stalling'}],cap:'For the next 35 minutes price went sideways near 8,950. The [[volume|volume]] bars shrank and RSI slid from 81 to 68. Buyers were running out.',nodes:['rsi','volume'],links:[['volume','rsi']]},
+  {upto:'21:35',ov:[{t:'zone',from:'21:00',to:'21:40',label:'Stalling',instant:true},{t:'mark',at:'21:35',label:'MACD blue crosses under orange',color:'#ffb74d'}],cap:'At 9:35 PM the [[macd|MACD]] blue line crossed below the orange line. Third warning: the push is fading.',nodes:['rsi'],links:[]},
+  {upto:'21:45',ov:[{t:'zone',from:'21:00',to:'21:40',instant:true},{t:'mark',at:'21:45',side:'below',label:'−190 points in 5 minutes',color:C.stop}],cap:'The next candle fell 190 points in 5 minutes, on the biggest [[volume|volume]] of the evening.',nodes:['volume','rsi'],links:[['volume','rsi']]},
+  {upto:'23:25',cap:'The lesson: high [[rsi|RSI]] + shrinking [[volume|volume]] + MACD crossing down = the move is tired. Don\'t buy a call there. If you already hold one, take profit or tighten your stop.',nodes:['rsi','volume','decision','stop'],links:[['rsi','decision'],['volume','rsi'],['decision','stop']]}]},
+ {title:'Building a strategy',kind:'flow',steps:[
+  {g:0,cap:'Every strategy starts as an idea from watching charts. For example: "When crude breaks out of a quiet box on big volume, it keeps going."'},
+  {g:1,cap:'Turn the idea into exact rules a computer could follow. What counts as a box? How big is "big volume"? Where is the stop? When do you exit? If two people could read a rule differently, it isn\'t exact yet.'},
+  {g:2,cap:'Test the rules on old data, say 2016–2022. Count every trade, including the cost of each trade (about ₹150 on crude).'},
+  {g:3,ex:true,cap:'Then test <b>once</b> on years the rules have never seen (2023–2026). Most ideas die here. They only worked on the data they were built from.'},
+  {g:3,cost:true,cap:'Why most ideas die: the average gain per trade has to beat the cost per trade. If an idea makes only a rupee or two per trade before costs, and each trade costs over ₹100, no chart skill can fix that.'},
+  {g:4,cap:'Ideas that survive go to paper trading: 20 trades with no money, following the rules exactly. You check that real life matches the test.'},
+  {g:5,cap:'Only then use real money, at the smallest size. Keep a trade log. If results drift away from the test, stop and check again.'},
+  {g:5,mine:true,cap:'Your own chart reading works the same way. Every time you take a trade, write down the rule you used. After 20 trades, your log shows which of your rules actually work. The Practice room is a good place to start.'}]},
+
+ /* ===== PART 2 ===== */
+ {part:2,title:'How an option works',kind:'opt',steps:[
+  {S0:7800,S1:7800,cap:'An option is a ticket on the direction of the market. A [[call|call]] makes money if the market goes up. A [[put|put]] makes money if it goes down. The price of the ticket is called the [[premium|premium]].',nodes:['market','premium'],links:[['market','premium']]},
+  {S0:7800,S1:7800,lot:true,cap:'Example: crude at 7,800. The 7800 call costs about 407 per unit. One [[lot|lot]] of Crude Mini is 10 units, so you pay about ₹4,070. That is also the most you can lose on it.',nodes:['premium','lot','money'],links:[['premium','lot'],['lot','money']]},
+  {S0:7800,S1:7900,lot:true,cap:'Crude rises 100 points. The call gains about 55 points (≈ ₹550 per lot). The put loses about 45. An option close to the market price moves about <b>half</b> as much as the market. That is why the lessons keep saying "about half".',nodes:['market','premium'],links:[['market','premium']]},
+  {S0:7900,S1:7700,lot:true,cap:'Crude falls to 7,700. Now the put gains and the call loses. You only buy one side, so you need to be right about the direction, and fairly quickly (lesson 15 shows why).',nodes:['market','premium','time'],links:[['market','premium']]},
+  {S0:7700,S1:7800,name:true,cap:'Reading the name "Crude Oil Mini 17 Jul 7800 Call": the market, the expiry date, the [[strike|strike price]], and call or put. On the expiry date the option is worth only how far the market finished past the strike. If it finished on the wrong side, it is worth zero.',nodes:['strike','time','premium'],links:[['strike','premium'],['time','premium']]}]},
+ {part:2,title:'Choosing a strike',kind:'strike',steps:[
+  {type:1,hl:[25500],cap:'Nifty is at 25,500 with 3 days to expiry. The strike closest to the market price is called "at the money". It moves about 50 for every 100 points Nifty moves. One lot (65 units) costs about ₹7,200.',nodes:['strike','premium','lot'],links:[['strike','premium'],['premium','lot']]},
+  {type:1,hl:[25300,25400],cap:'Calls with a strike <b>below</b> the market are "in the money". They cost more and move more like Nifty itself: the 25300 call moves about 77 per 100 but costs ₹15,500 a lot.',nodes:['strike','premium','lot'],links:[['strike','premium'],['premium','lot']]},
+  {type:1,hl:[25600,25700],cap:'Calls with a strike <b>above</b> the market are "out of the money". They look cheap, but they move much less, and if Nifty doesn\'t get there by expiry they end at zero. Cheap is usually a trap.',nodes:['strike','time','premium'],links:[['strike','premium'],['time','premium']]},
+  {type:-1,hl:[25600,25700],cap:'For puts it is the other way round: strikes <b>above</b> the market are in the money, and strikes below are out of the money.',nodes:['strike','premium'],links:[['strike','premium']]},
+  {type:1,hl:[25500,25400],cap:'A common beginner guideline: look near the market price, or one step in the money. Then put the cost of 1 lot into the calculator before buying. If it costs more than half your account, it is too big.',nodes:['strike','lot','money','decision'],links:[['lot','money'],['money','decision']]}]},
+ {part:2,title:'Time decay',kind:'decay',steps:[
+  {cap:'This is a Crude Mini 7800 call while crude stays exactly at 7,800 for a month. The market doesn\'t move at all, yet the option loses value every single day. This is called [[time|time decay]].',nodes:['time','premium'],links:[['time','premium']]},
+  {end:true,cap:'The loss is slow when expiry is far away and very fast at the end. In the last week the option loses about as much value as in the three weeks before it.',nodes:['time','premium'],links:[['time','premium']]},
+  {nifty:true,cap:'Nifty weekly options are short-lived. An at-the-money Nifty option with 3 days left is worth about 111. With 1 day left it is worth about 64, if Nifty doesn\'t move. A weekend counts as days of decay, so Friday to Monday costs a lot.',nodes:['time','premium','money'],links:[['time','premium'],['premium','money']]},
+  {nifty:true,rules:true,cap:'Rules: exit intraday option trades the same day. Never carry an option that expires in the next few days over a weekend. On expiry day itself, only trade if you will be out within minutes.',nodes:['time','rules'],links:[['time','rules']]}]},
+ {part:2,title:'News and premiums',kind:'iv',steps:[
+  {n:1,cap:'On a normal day, an at-the-money Nifty option with 2 days left might cost about 90.',nodes:['premium','news'],links:[]},
+  {n:2,cap:'The day before big scheduled [[news|news]] (RBI policy, the Budget, big US data), everyone expects a big move, so option prices go up. The same option now costs about 166.',nodes:['news','premium'],links:[['news','premium']]},
+  {n:3,cap:'The news comes out and Nifty rises 60 points. You bought the call, so you were right.',nodes:['news','market','premium'],links:[['market','premium']]},
+  {n:4,cap:'But the extra "news price" disappears straight away. Your call is now worth about 121, <b>less than the 166 you paid</b>. That\'s a loss of about ₹2,900 on one lot, even though you guessed the direction right.',nodes:['news','premium','money'],links:[['news','premium'],['premium','money']]},
+  {n:4,rule:true,cap:'Rule: don\'t buy options in the last hour before scheduled news. Wait 15–30 minutes after it comes out, then trade the move at normal prices.',nodes:['news','rules'],links:[['news','rules']]}]},
+ {part:2,title:'Placing orders',kind:'orders',steps:[
+  {mode:'market',cap:'<b>Market order</b>: buy right now at whatever price sellers are asking. It is fast, but in a quick candle the price you see (420) may be gone by the time your order arrives, and you pay 423. That gap is called [[slip|slippage]].',nodes:['order','slip'],links:[['order','slip']]},
+  {mode:'limit',cap:'<b>Limit order</b>: you set the most you will pay, for example 421. You never pay more. If the price runs away to 430 without coming back, the order just sits unfilled. You missed one trade, but you lost nothing.',nodes:['order'],links:[['order','slip']]},
+  {mode:'sl',cap:'<b>Stop-loss order</b>: you set a trigger price (416) and a limit price (413). When the price touches the trigger, a sell order goes in at your limit. Keep the limit a few points below the trigger so it still fills in a fast fall.',nodes:['order','stopo','money'],links:[['stopo','money']]},
+  {mode:'slfail',cap:'If the gap between trigger and limit is too small, a fast fall can jump past your limit. The order stays <b>Open</b> and you are still in the trade, losing. After a stop triggers, check the order shows "Executed". If it says "Open", exit straight away.',nodes:['stopo','slip','money'],links:[['slip','money'],['stopo','money']]},
+  {mode:'charges',cap:'Every buy and sell has charges: brokerage, exchange fees and taxes. For 1 lot that\'s roughly ₹50–80 per round trip (check your broker\'s charges page for the exact amount). Include it in every plan. Small targets get eaten by charges.',nodes:['money','order'],links:[['order','money']]}]},
+ {part:2,title:'Reading Nifty',day:'N:2026-10-15',view:['09:15','15:30'],steps:[
+  {upto:'11:00',cap:'This is the Nifty 50 index. Look at the volume panel: it is empty. The index is a number worked out from 50 shares. Nobody trades the index itself, so it has no volume.',nodes:['market'],links:[]},
+  {upto:'13:00',cap:'So the green line here is a plain day-average price, not a real VWAP. For real volume and VWAP, open the Nifty futures chart, or the chart of the option you are trading. Option charts in broker apps usually have both.',nodes:['market','levels'],links:[]},
+  {upto:'15:10',cap:'Everything else from Part 1 works the same. This was an up day above a rising average, and the dips to the blue line held.',nodes:['levels','decision'],links:[['levels','decision']]},
+  {upto:'15:10',ov:[{t:'hud',text:'1 lot = 65 units · 1 option point = ₹65',color:'#facc15'},{t:'hud',text:'10-point stop ≈ ₹650 + charges',color:'#ff7a7a'}],cap:'The big difference is money. One Nifty [[lot|lot]] is 65 units, so every option point is ₹65. A 10-point stop costs about ₹650, which is 6% of an ₹11,000 account. That is double the safe limit.',nodes:['lot','money'],links:[['lot','money']]}]},
+ {part:2,title:'The first 15 minutes',view:['09:15','13:00'],steps:[
+  {day:'N:2026-10-09',upto:'09:15',ov:[{t:'lvl',price:22215.8,color:'#a78bfa',label:'Yesterday\'s close 22,216',dash:[5,4]}],cap:'Yesterday Nifty closed at 22,216. Today it opened at 22,315. Opening higher than yesterday\'s close is a "gap up" (here +0.45%).',nodes:['open15'],links:[]},
+  {day:'N:2026-10-09',upto:'09:25',ov:[{t:'lvl',price:22215.8,color:'#a78bfa',label:'Yesterday\'s close 22,216',dash:[5,4],instant:true},{t:'zone',from:'09:15',to:'09:30',label:'First 15 minutes'}],cap:'The first 15 minutes are the wildest part of the day: overnight news, big orders and fast swings in both directions. Don\'t trade them. Just watch.',nodes:['open15'],links:[]},
+  {day:'N:2026-10-09',upto:'09:25',ov:[{t:'box',from:'09:15',to:'09:30'}],cap:'Mark the high and the low of those first 15 minutes (22,295 to 22,383). This band is called the opening range. It works just like a box.',nodes:['open15','levels'],links:[['open15','levels']]},
+  {day:'N:2026-10-09',upto:'09:30',ov:[{t:'box',from:'09:15',to:'09:30',labels:false,instant:true},{t:'trade',at:'09:30',entry:22394,stop:22339,target:22472}],cap:'The 9:30 candle closed above the range. Treat it like any breakout: entry at the close (22,394), stop at the middle of the range (22,339), target one range-height above the top (22,472).',nodes:['levels','decision'],links:[['levels','decision']]},
+  {day:'N:2026-10-09',upto:'12:55',ov:[{t:'trade',at:'09:30',entry:22394,stop:22339,target:22472,instant:true}],cap:'The target was reached at 9:55 and Nifty kept climbing to close near 22,536.',nodes:['levels','decision'],links:[['levels','decision']]},
+  {day:'N:2026-10-16',upto:'10:25',ov:[{t:'box',from:'09:15',to:'09:30',labels:false},{t:'mark',at:'09:30',side:'below',label:'Closed below the range',color:C.hi},{t:'lvl',price:23009,color:C.stop,label:'Stop: middle of range',dash:[4,4]}],cap:'It doesn\'t always work. On 16 Oct the 9:30 candle closed <b>below</b> the range, a put signal. Within 30 minutes price was back above the middle of the range: stop hit. Then Nifty rallied 200 points.',nodes:['levels','money'],links:[['levels','decision']]},
+  {day:'N:2026-10-16',upto:'12:55',ov:[{t:'box',from:'09:15',to:'09:30',labels:false,instant:true}],cap:'No setup works every time, and this one fails often, as 16 Oct showed. Use it together with the day-type check, never on its own, and always with a stop-loss.',nodes:['open15','rules'],links:[['open15','rules']]}]},
+ {part:2,title:'Yesterday\'s high and low',day:'N:2026-07-13',view:['09:15','15:30'],steps:[
+  {upto:'09:15',ov:[{t:'lvl',price:24134.7,color:C.ceiling,label:'Yesterday\'s high 24,135',dash:[5,4]},{t:'lvl',price:23925.7,color:C.floor,label:'Yesterday\'s low 23,926',dash:[5,4]}],cap:'Before the market opens, mark [[pdhl|yesterday\'s high and low]] on your chart. Many traders watch these two levels, so price often stops at them.',nodes:['pdhl','levels'],links:[['pdhl','levels']]},
+  {upto:'10:20',ov:[{t:'lvl',price:24134.7,color:C.ceiling,label:'Yesterday\'s high 24,135',dash:[5,4],instant:true},{t:'mark',at:'10:00',label:'1',color:C.ceiling,len:22},{t:'mark',at:'10:05',label:'2',color:C.ceiling,len:22},{t:'mark',at:'10:20',label:'3',color:C.ceiling,len:22}],cap:'Three times between 10:00 and 10:20, Nifty came within a few points of 24,135 and was pushed back. Yesterday\'s high was acting as a [[levels|ceiling]].',nodes:['pdhl','levels'],links:[['pdhl','levels']]},
+  {upto:'10:25',ov:[{t:'lvl',price:24134.7,color:C.ceiling,label:'Yesterday\'s high 24,135',dash:[5,4],instant:true},{t:'mark',at:'10:25',label:'Closed above',color:C.hi}],cap:'At 10:25 a candle closed above it, at 24,146. The same breakout rules apply: entry at the close, stop back below the level, target the next level up.',nodes:['pdhl','levels','decision'],links:[['levels','decision']]},
+  {upto:'15:25',ov:[{t:'lvl',price:24134.7,color:C.ceiling,label:'Yesterday\'s high 24,135',dash:[5,4],instant:true}],cap:'Nifty climbed to 24,260 and closed at 24,211. Yesterday\'s high and low are often among the most important levels of the day. Mark them every morning, before 9:15.',nodes:['pdhl','levels','rules'],links:[['pdhl','levels'],['levels','decision']]}]},
+ {part:2,title:'Days to be careful',view:['17:00','23:30'],steps:[
+  {day:'2026-08-12',upto:'19:55',cap:'Every Wednesday the US publishes its weekly oil stock numbers. In India that is 8:00 PM from March to early November, and 9:00 PM in winter. Watch crude on Wednesday 12 Aug.',nodes:['news'],links:[]},
+  {day:'2026-08-12',upto:'20:00',ov:[{t:'mark',at:'20:00',label:'8:00 PM report',color:C.hi},{t:'vol',at:'20:00',label:'9× normal'}],cap:'The 8:00 PM candle moved 63 points, about 4 times a normal candle, on 9 times the normal volume. A move like that can go either way in seconds, and stop-loss orders get filled at bad prices.',nodes:['news','slip'],links:[['news','slip']]},
+  {day:'2026-08-12',upto:'23:25',ov:[{t:'vol',at:'20:00'}],cap:'Rule for crude: don\'t hold a trade into the Wednesday report, and don\'t open a new one until 15 minutes after it.',nodes:['news','rules'],links:[['news','rules']]},
+  {kind:'calendar',cap:'Other days to be careful are in the list on the chart. Each morning, check your broker\'s market calendar or the news. Rule: no new trade in the 15 minutes before or after a scheduled event.',nodes:['news','rules','decision'],links:[['news','rules'],['rules','decision']]}]},
+ {part:2,title:'Your own mind',kind:'mind',steps:[
+  {m:1,cap:'After a loss, the urge to win it back quickly is strong. A bigger trade, with no plan, leads to a bigger loss, and then the urge grows. This loop is how most trading accounts get emptied.',nodes:['mind','money'],links:[['mind','money']]},
+  {m:2,cap:'Its cousin is the fear of missing out: buying after a giant candle because "it keeps going". That means buying at the most stretched point (lesson 11), right before the pullback.',nodes:['mind','decision'],links:[['mind','decision']]},
+  {m:3,cap:'Break the loop with [[rules|rules]] you set before the market opens: at most 2 trades a day, stop after 2 losses, and stop once you have a good profit.',nodes:['rules','mind'],links:[['mind','rules']]},
+  {m:3,card:true,cap:'Write your rules on a card next to your screen. Good traders still feel fear and excitement. The difference is that they follow the card anyway. Practise in the Practice room until following the rules feels normal.',nodes:['rules','decision'],links:[['rules','decision']]}]}
+];
+const GATES=['Idea','Exact rules','Test on old data','Test on unseen data','Paper trade (20)','Real money, 1 lot'];
+
+/* ---------- concept map ---------- */
+const svgNS='http://www.w3.org/2000/svg';
+function edgesFor(part,nodes){const s=new Set();for(const L of LESSONS){if((L.part||1)!==part)continue;for(const st of L.steps)for(const e of (st.links||[]))s.add([...e].sort().join('|'))}
+  const base=part===1?['candle|volume','vwap|daytype','daytype|decision','daytype|dip','blue|dip','ceiling|breakout','floor|breakout','breakout|entry','dip|entry','entry|stop','entry|target','stop|money']:['market|premium','strike|premium','time|premium','news|premium','premium|lot','lot|money','order|slip','slip|money','open15|levels','pdhl|levels','levels|decision','mind|rules','rules|decision'];
+  base.forEach(x=>s.add(x.split('|').sort().join('|')));return [...s].map(x=>x.split('|')).filter(([a,b])=>nodes[a]&&nodes[b])}
+let MAP_PART=0;
+function buildMap(part){
+  part=part||1;if(MAP_PART===part)return;MAP_PART=part;const NODE=part===1?window.NODE1:NODE2;
+  const svg=$('#mapSvg');svg.innerHTML='';const g1=document.createElementNS(svgNS,'g');svg.appendChild(g1);
+  for(const [a,b] of edgesFor(part,NODE)){const A=NODE[a],B=NODE[b];const p=document.createElementNS(svgNS,'path');
+    const mx=(A.x+B.x)/2,my=(A.y+B.y)/2;const bend=(A.x===B.x||A.y===B.y)?14:0;const cx=mx+(A.y===B.y?0:bend),cy=my+(A.x===B.x?0:-bend);
+    p.setAttribute('d',`M${A.x} ${A.y} Q${cx} ${cy} ${B.x} ${B.y}`);p.setAttribute('class','edge');p.dataset.e=[a,b].sort().join('|');g1.appendChild(p)}
+  for(const [k,n] of Object.entries(NODE)){const g=document.createElementNS(svgNS,'g');g.setAttribute('class','node');g.dataset.k=k;g.style.setProperty('--nc',n.c);
+    const r=document.createElementNS(svgNS,'rect');r.setAttribute('x',n.x-50);r.setAttribute('y',n.y-15);r.setAttribute('width',100);r.setAttribute('height',30);r.setAttribute('rx',8);
+    const t=document.createElementNS(svgNS,'text');t.setAttribute('x',n.x);t.setAttribute('y',n.y+4);t.setAttribute('text-anchor','middle');t.textContent=n.label;g.appendChild(r);g.appendChild(t);svg.appendChild(g)}
+}
+function lightMap(nodes,links){
+  document.querySelectorAll('#mapSvg .node').forEach(g=>g.classList.toggle('on',(nodes||[]).includes(g.dataset.k)));
+  const on=new Set((links||[]).map(e=>[...e].sort().join('|')));document.querySelectorAll('#mapSvg path.edge').forEach(p=>p.classList.toggle('on',on.has(p.dataset.e)));
+}
+
+/* ---------- custom scenes ---------- */
+function drawAnatomy(ctx,W,H,s,t){
+  const path=[100,99,101,98,96.5,97,99,102,104,106,108,107,105,106,104.5,103,104.2];
+  const n=path.length;const lo=94,hi=110;const pad=24;const leftW=W*0.5;const Y=p=>pad+(hi-p)/(hi-lo)*(H-pad*2-20);
+  ctx.font=`600 ${W<520?11:13}px Inter, sans-serif`;ctx.textBaseline='middle';
+  // left box: 5 minutes of price
+  const x0=pad+10,x1=leftW-10;ctx.strokeStyle='rgba(255,255,255,.12)';ctx.strokeRect(x0,pad,x1-x0,H-pad*2-20);
+  ctx.fillStyle=C.axis;ctx.textAlign='center';ctx.fillText('5 minutes of price movement',(x0+x1)/2,H-18);
+  for(let k=0;k<=5;k++){const x=x0+(x1-x0)*k/5;ctx.fillText(k+'m',x,H-34)}
+  const shown=s===0?Math.max(2,Math.floor(t*n)):n;ctx.strokeStyle='#cbd5e1';ctx.lineWidth=2;ctx.beginPath();
+  for(let i=0;i<shown;i++){const x=x0+(x1-x0)*i/(n-1),y=Y(path[i]);i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke();
+  const X=i=>x0+(x1-x0)*i/(n-1);const iH=path.indexOf(Math.max(...path)),iL=path.indexOf(Math.min(...path));
+  const cx=leftW+(W-leftW)*0.32,cw=Math.min(60,W*0.07);const op=path[0],cl=path[n-1];
+  const dot=(x,y,col,lab,al='left')=>{ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill();if(lab){ctx.textAlign=al;ctx.fillText(lab,x+(al==='left'?10:-10),y)}};
+  const dash=(xa,y,xb,col)=>{ctx.setLineDash([4,4]);ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xa,y);ctx.lineTo(xb,y);ctx.stroke();ctx.setLineDash([])};
+  if(s>=1){dot(X(0),Y(op),'#e5e7eb','Open');dash(X(0),Y(op),cx-cw/2,'rgba(229,231,235,.5)');ctx.strokeStyle='#e5e7eb';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx-cw/2-8,Y(op));ctx.lineTo(cx-cw/2,Y(op));ctx.stroke()}
+  if(s>=2){dot(X(iH),Y(path[iH]),C.hi,'High');dot(X(iL),Y(path[iL]),C.hi,'Low');dash(X(iH),Y(path[iH]),cx,'rgba(250,204,21,.5)');dash(X(iL),Y(path[iL]),cx,'rgba(250,204,21,.5)');
+    ctx.strokeStyle=s>=3?C.up:'#e5e7eb';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,Y(path[iH]));ctx.lineTo(cx,Y(path[iL]));ctx.stroke();ctx.fillStyle=C.hi;ctx.textAlign='left';ctx.fillText('wick',cx+8,Y(path[iH])+8);ctx.fillText('wick',cx+8,Y(path[iL])-8)}
+  if(s>=3){dot(X(n-1),Y(cl),C.up,'Close','right');dash(X(n-1),Y(cl),cx-cw/2,'rgba(38,166,154,.6)');const g=s===3?Math.min(1,t*1.4):1;ctx.fillStyle=C.up;const yt=Y(op+(cl-op)*g);ctx.fillRect(cx-cw/2,yt,cw,Y(op)-yt);
+    ctx.fillStyle=C.up;ctx.textAlign='center';ctx.fillText('GREEN',cx,H-34);ctx.fillStyle=C.axis;ctx.fillText('close > open',cx,H-18)}
+  if(s>=4){const rx=leftW+(W-leftW)*0.72;const o2=104,h2=105,l2=95,c2=97.5;ctx.strokeStyle=C.dn;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(rx,Y(h2));ctx.lineTo(rx,Y(l2));ctx.stroke();ctx.fillStyle=C.dn;ctx.fillRect(rx-cw/2,Y(o2),cw,Y(c2)-Y(o2));
+    ctx.textAlign='center';ctx.fillText('RED',rx,H-34);ctx.fillStyle=C.axis;ctx.fillText('close < open',rx,H-18);ctx.fillStyle='#e6edf3';if(W<640){ctx.textAlign='right';ctx.fillText('long lower wick:',W-6,Y(h2)-36);ctx.fillText('buyers pushed back',W-6,Y(h2)-21)}else{ctx.textAlign='left';ctx.fillText('long lower wick:',rx+cw/2+8,Y(96.5));ctx.fillText('buyers pushed back',rx+cw/2+8,Y(96.5)+15)}}
+}
+function drawFlow(ctx,W,H,st,t){
+  const narrow=W<620;const extra=!!(st.ex||st.cost||st.mine);const cols=narrow?2:3;const rows=Math.ceil(GATES.length/cols);const pad=18;const gw=(W-pad*2-(cols-1)*28)/cols;
+  const gh=extra?(narrow?34:46):(narrow?50:60);const gy0=pad+(extra?0:8);const vgap=extra?16:Math.max(26,(H*0.82-rows*gh)/rows);
+  const pos=[];for(let i=0;i<GATES.length;i++){const r=Math.floor(i/cols);let c=i%cols;if(r%2===1)c=cols-1-c;pos.push([pad+c*(gw+28),gy0+r*(gh+vgap)])}
+  ctx.lineWidth=2;for(let i=0;i<GATES.length-1;i++){const [xa,ya]=pos[i],[xb,yb]=pos[i+1];const done=i<st.g;ctx.strokeStyle=done?'#2cc5a4':'rgba(255,255,255,.18)';ctx.beginPath();
+    if(ya===yb){const y=ya+gh/2;const fromX=xb>xa?xa+gw:xa,toX=xb>xa?xb:xb+gw;ctx.moveTo(fromX,y);ctx.lineTo(toX,y);ctx.stroke();arrow(ctx,toX,y,xb>xa?0:Math.PI)}
+    else{const x=xa+gw/2;ctx.moveTo(x,ya+gh);ctx.lineTo(x,yb);ctx.stroke();arrow(ctx,x,yb,Math.PI/2)}}
+  ctx.textBaseline='middle';
+  for(let i=0;i<GATES.length;i++){const [x,y]=pos[i];const act=i===st.g,done=i<st.g;ctx.fillStyle=act?'rgba(44,197,164,.18)':'rgba(255,255,255,.04)';ctx.strokeStyle=act?'#2cc5a4':done?'rgba(44,197,164,.55)':'rgba(255,255,255,.18)';ctx.lineWidth=act?2.5:1.2;
+    roundRect(ctx,x,y,gw,gh,10);ctx.fill();ctx.stroke();ctx.fillStyle=act?'#e6edf3':done?'#b9e9dc':'#8b98a6';ctx.font=`600 ${narrow?12:14}px "Space Grotesk", Inter, sans-serif`;ctx.textAlign='center';
+    ctx.fillText((done?'✓ ':'')+(i+1)+'. '+GATES[i],x+gw/2,y+gh/2)}
+  const by=gy0+rows*(gh+vgap)-vgap+(narrow?20:26);const fs=narrow?11.5:13;const lh=fs+5;ctx.font=`600 ${fs}px Inter, sans-serif`;ctx.textAlign='left';
+  if(st.ex){const ex=[['✓','Nifty trend follow (the app\'s rule): made money on the unseen years','#34d399'],['✗','Crude box breakouts: 0 of 240 versions made money over 10 years','#ff7a7a'],['✗','Crude scalping: lost money in every setup and every year','#ff7a7a'],['✗','Crude trend follow: lost money in most years','#ff7a7a']];
+    let y=by;const show=Math.ceil(clamp(t*1.6,0,1)*ex.length);ex.slice(0,show).forEach(([m,txt,col])=>{ctx.fillStyle=col;ctx.fillText(m,pad,y);ctx.fillStyle='#d6dee6';const n=wrapLines(ctx,txt,pad+20,y,W-pad*2-20,lh);y+=n*lh+6})}
+  if(st.cost){const lw=narrow?118:160;const bwid=W-pad*2-lw-48;const a=Math.min(1,t*1.6);const bars=[['Average gain per trade',3,'#34d399'],['Cost per trade',120,'#ff7a7a']];
+    bars.forEach(([lab,v,col],k)=>{const y=by+k*36;ctx.fillStyle='#d6dee6';wrapLines(ctx,lab,pad,y,lw-8,lh);ctx.fillStyle=col;const w=Math.max(3,bwid*(v/120)*a);ctx.fillRect(pad+lw,y-9,w,18);ctx.fillStyle='#e6edf3';ctx.fillText('₹'+v,pad+lw+w+8,y)})
+    ctx.fillStyle='#8b98a6';wrapLines(ctx,'Crude scalping, 2016–2026, per trade on 1 lot of the future',pad,by+78,W-pad*2,lh)}
+  if(st.mine){const lines=['Write down for every trade:','• The rule you used (e.g. "breakout of a 3-hour box, volume 2×")','• Entry, stop, target and result','After 20 trades: which rules made money?'];
+    let y=by;lines.forEach((l,k)=>{ctx.fillStyle=k?'#d6dee6':'#facc15';const n=wrapLines(ctx,l,pad,y,W-pad*2,lh);y+=n*lh+4})}
+}
+function arrow(ctx,x,y,a){ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle=ctx.strokeStyle;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-9,-5);ctx.lineTo(-9,5);ctx.fill();ctx.restore()}
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function wrapLines(ctx,txt,x,y,maxW,lh){const words=txt.split(' ');let line='',n=0;for(const w of words){const test=line?line+' '+w:w;if(ctx.measureText(test).width>maxW&&line){ctx.fillText(line,x,y+n*lh);n++;line=w}else line=test}if(line){ctx.fillText(line,x,y+n*lh);n++}return n}
+
+/* ---------- option maths (simple Black-Scholes, no interest) ---------- */
+function ncdf(x){const t=1/(1+0.2316419*Math.abs(x));const d=0.3989423*Math.exp(-x*x/2);const p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-p:p}
+function bs(S,K,days,iv,type){const T=days/365;if(T<=0)return Math.max(0,type>0?S-K:K-S);const sd=iv*Math.sqrt(T);const d1=(Math.log(S/K)+0.5*sd*sd)/sd,d2=d1-sd;return type>0?S*ncdf(d1)-K*ncdf(d2):K*ncdf(-d2)-S*ncdf(-d1)}
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function txt(ctx,s,x,y,size,col,align,weight,fam){ctx.font=`${weight||600} ${size}px ${fam||'Inter, system-ui, sans-serif'}`;ctx.fillStyle=col||C.text;ctx.textAlign=align||'left';ctx.textBaseline='middle';ctx.fillText(s,x,y)}
+function card(ctx,x,y,w,h,col,fillA){roundRect(ctx,x,y,w,h,12);ctx.fillStyle=fillA||'rgba(255,255,255,.04)';ctx.fill();ctx.strokeStyle=col||'rgba(255,255,255,.18)';ctx.lineWidth=1.4;ctx.stroke()}
+
+function drawOpt(ctx,W,H,st,t){
+  const S=st.S0+(st.S1-st.S0)*ease(t);const K=7800,D=25,IV=0.5;const n=W<560;const pad=18;
+  const call=bs(S,K,D,IV,1),put=bs(S,K,D,IV,-1),c0=bs(7800,K,D,IV,1),p0=bs(7800,K,D,IV,-1);
+  // market track
+  const tx0=pad+10,tx1=W-pad-10,ty=n?46:54;txt(ctx,'Crude Oil Mini',tx0,ty-26,n?12:13,C.axis);
+  ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(tx0,ty);ctx.lineTo(tx1,ty);ctx.stroke();
+  const X=v=>tx0+(v-7600)/400*(tx1-tx0);for(const v of [7600,7700,7800,7900,8000]){txt(ctx,fmt(v),X(v),ty+18,n?10:11,C.axis,'center',500,'"JetBrains Mono", monospace')}
+  ctx.fillStyle=S>=7800?C.up:C.dn;ctx.beginPath();ctx.arc(X(S),ty,9,0,Math.PI*2);ctx.fill();txt(ctx,fmt(S),X(S),ty-20,n?14:16,'#fff','center',700,'"JetBrains Mono", monospace');
+  if(st.name){const parts=[['Crude Oil Mini','the market','#9aa5b1'],['17 Jul','expiry date','#a855f7'],['7800','strike price','#f08c2e'],['Call','type','#26a69a']];
+    const fs=n?20:24;ctx.font=`700 ${fs}px "Space Grotesk", Inter, sans-serif`;const gap=n?22:18;const rowsP=n?[parts.slice(0,2),parts.slice(2)]:[parts];
+    rowsP.forEach((row,r)=>{const ws=row.map(p=>{ctx.font=`700 ${fs}px "Space Grotesk", Inter, sans-serif`;return ctx.measureText(p[0]).width});const tot=ws.reduce((a,b)=>a+b,0)+gap*(row.length-1);let x=(W-tot)/2;const y=(n?H*0.42:H*0.55)+r*(fs+46);
+      row.forEach(([s,lab,col],k)=>{const kk=parts.indexOf(row[k]);const a=clamp(t*2-kk*0.25,0,1);ctx.globalAlpha=0.25+0.75*a;txt(ctx,s,x,y,fs,col,'left',700,'"Space Grotesk", Inter, sans-serif');ctx.strokeStyle=col;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y+fs*0.8);ctx.lineTo(x+ws[k],y+fs*0.8);ctx.stroke();
+        txt(ctx,lab,x+ws[k]/2,y+fs*0.8+16,n?11:12,col,'center');ctx.globalAlpha=1;x+=ws[k]+gap})});
+    ctx.font=`500 ${n?11.5:13}px Inter, sans-serif`;ctx.fillStyle='#d6dee6';ctx.textAlign='center';ctx.textBaseline='middle';wrapLines(ctx,'On 17 Jul it is worth only how far crude finished above 7,800. Below 7,800 it is worth zero.',W/2,H-(n?40:36),W-40,n?16:18);return}
+  const cw=(W-pad*3)/2,ch=H-ty-60,cy=ty+42;
+  [[`7800 Call`,call,c0,'#26a69a','gains when crude rises'],[`7800 Put`,put,p0,'#ef5350','gains when crude falls']].forEach(([name,v,v0,col,sub],k)=>{
+    const x=pad+k*(cw+pad);card(ctx,x,cy,cw,ch,col,'rgba(255,255,255,.035)');txt(ctx,name,x+14,cy+20,n?14:17,col,'left',700,'"Space Grotesk", Inter, sans-serif');txt(ctx,sub,x+14,cy+40,n?10.5:12,C.axis,'left',500);
+    txt(ctx,v.toFixed(0),x+14,cy+(n?74:82),n?28:38,'#fff','left',700,'"JetBrains Mono", monospace');const ch2=v-v0;
+    if(Math.abs(ch2)>0.5)txt(ctx,(ch2>0?'+':'')+ch2.toFixed(0)+' pts',x+14,cy+(n?102:116),n?13:16,ch2>0?C.target:C.stop,'left',700,'"JetBrains Mono", monospace');
+    const bh=ch-(n?130:150),bx=x+cw-(n?30:44),by=cy+ch-14;const hh=bh*v/600;ctx.fillStyle=col;ctx.fillRect(bx,by-hh,n?14:20,hh);ctx.strokeStyle='rgba(255,255,255,.2)';ctx.strokeRect(bx,by-bh,n?14:20,bh);
+    if(st.lot)txt(ctx,'1 lot = 10 × '+v.toFixed(0)+' = ₹'+fmt(v*10),x+14,cy+ch-22,n?11:13,'#facc15','left',600)});
+}
+function drawStrike(ctx,W,H,st,t){
+  const n=W<600,pad=16,S=25500,D=3,IV=0.12,type=st.type;const Ks=[25300,25400,25500,25600,25700];
+  txt(ctx,`Nifty at 25,500 · 3 days to expiry · ${type>0?'CALLS':'PUTS'}`,pad,22,n?12:14,'#e6edf3','left',700,'"Space Grotesk", Inter, sans-serif');
+  const cols=n?[['Strike',0.0],['Price',0.24],['Moves per 100',0.44],['1 lot ₹',0.72]]:[['Strike',0],['Price',0.16],['Moves per 100 Nifty pts',0.3],['Cost of 1 lot',0.56],['Which kind',0.76]];
+  const tw=W-pad*2,y0=n?52:58,rh=(H-y0-(n?40:20))/(Ks.length+0.6);cols.forEach(([h,f])=>txt(ctx,h,pad+f*tw,y0,n?10.5:12,C.axis,'left',600));
+  Ks.forEach((K,k)=>{const y=y0+rh*(k+0.9);const v=bs(S,K,D,IV,type),mv=Math.abs(bs(S+50,K,D,IV,type)-bs(S-50,K,D,IV,type));const itm=type>0?K<S:K>S,atm=K===S;
+    const kind=atm?'At the money':itm?'In the money':'Out of the money';const col=atm?'#facc15':itm?'#34d399':'#ff9f43';const on=(st.hl||[]).includes(K);
+    ctx.globalAlpha=on?1:0.4;if(on){roundRect(ctx,pad-6,y-rh*0.42,tw+12,rh*0.84,8);ctx.fillStyle='rgba(250,204,21,.08)';ctx.fill();ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke()}
+    const vals=[fmt(K),v.toFixed(0),mv.toFixed(0),'₹'+fmt(v*65)];vals.forEach((s,i)=>txt(ctx,s,pad+cols[i][1]*tw,y,n?13:15,i===0?col:'#e6edf3','left',600,'"JetBrains Mono", monospace'));
+    if(!n)txt(ctx,kind,pad+cols[4][1]*tw,y,13,col,'left',600);else{ctx.fillStyle=col;ctx.beginPath();ctx.arc(pad+0.2*tw-6,y,4,0,Math.PI*2);ctx.fill()}
+    ctx.globalAlpha=1});
+  if(n){txt(ctx,'● yellow: at the money   ● green: in the money',pad,H-24,10,C.axis,'left',500);txt(ctx,'● orange: out of the money',pad,H-10,10,C.axis,'left',500)}
+}
+function drawDecay(ctx,W,H,st,t){
+  const n=W<600,pad=16;const L=pad+42,R=st.nifty?W*(n?0.95:0.58):W-pad-10,T=40,B=H-(st.nifty&&n?180:44);
+  const v=d=>bs(7800,7800,d,0.5,1);const mx=v(30);const X=d=>L+(30-d)/30*(R-L),Y=p=>B-(p/mx)*(B-T);
+  txt(ctx,'Crude Mini 7800 call · crude stays at 7,800',L,18,n?11.5:13,'#e6edf3','left',700,'"Space Grotesk", Inter, sans-serif');
+  ctx.strokeStyle='rgba(255,255,255,.15)';ctx.lineWidth=1;for(const p of [0,100,200,300,400]){const y=Y(p);ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(R,y);ctx.stroke();txt(ctx,String(p),L-6,y,10,C.axis,'right',500,'"JetBrains Mono", monospace')}
+  for(const d of [30,21,14,7,0]){txt(ctx,d+'d',X(d),B+14,10,C.axis,'center',500,'"JetBrains Mono", monospace')}txt(ctx,'days left to expiry →',R,B+28,10,C.axis,'right',500);
+  if(st.end){ctx.fillStyle='rgba(255,92,92,.12)';ctx.fillRect(X(7),T,R-X(7),B-T);txt(ctx,'last week',(X(7)+R)/2,T+10,11,'#ff9b9b','center',600)}
+  const upto=st.end||st.nifty?0:30-30*clamp(t,0,1);ctx.strokeStyle=C.target;ctx.lineWidth=2.5;ctx.beginPath();for(let d=30;d>=upto-1e-9;d-=0.25){const x=X(d),y=Y(v(d));d===30?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+  const dEnd=Math.max(0,upto);ctx.fillStyle=C.target;ctx.beginPath();ctx.arc(X(dEnd),Y(v(dEnd)),5,0,Math.PI*2);ctx.fill();txt(ctx,v(dEnd).toFixed(0),X(dEnd)+8,Y(v(dEnd))-12,12,'#fff','left',700,'"JetBrains Mono", monospace');
+  if(st.end){txt(ctx,'30→7 days: −'+(v(30)-v(7)).toFixed(0),X(18),Y(v(18))-26,n?10.5:12,'#e6edf3','center',600);txt(ctx,'7→0 days: −'+v(7).toFixed(0),X(4),Y(v(7))-22,n?10.5:12,'#ff9b9b','center',600)}
+  if(st.nifty){const a=clamp(t*1.5,0,1);const bx=n?pad:W*0.64,bw=n?W-pad*2:W*0.33,by=n?H-140:T,bh=n?128:B-T;card(ctx,bx,by,bw,bh,'rgba(255,255,255,.2)');
+    txt(ctx,st.rules?'Rules':'Nifty at-the-money option',bx+12,by+18,n?12:13.5,'#facc15','left',700);
+    if(!st.rules){const n3=bs(25500,25500,3,0.12,1),n1=bs(25500,25500,1,0.12,1);const bars=[['3 days left',n3],['1 day left',n1*a+n3*(1-a)]];
+      bars.forEach(([lab,val],k)=>{const yy=by+46+k*(n?34:46);txt(ctx,lab,bx+12,yy,n?11:12.5,'#d6dee6','left',500);const w=(bw-130)*val/n3;ctx.fillStyle=k?'#ff7a7a':'#34d399';ctx.fillRect(bx+100,yy-8,Math.max(2,w),16);txt(ctx,val.toFixed(0),bx+106+w,yy,12,'#fff','left',700,'"JetBrains Mono", monospace')});
+      txt(ctx,'Nifty did not move. −'+(n3-n1).toFixed(0)+' pts = −₹'+fmt((n3-n1)*65)+' per lot',bx+12,by+bh-16,n?10.5:12,'#ff9b9b','left',600)}
+    else{['Exit intraday trades the same day','No near-expiry option over a weekend','Expiry day: in and out within minutes'].forEach((s,k)=>txt(ctx,'✓ '+s,bx+12,by+46+k*(n?24:30),n?11:12.5,'#d6dee6','left',500))}}
+}
+function drawIV(ctx,W,H,st,t){
+  const n=W<600,pad=18;const vals=[['Normal day',bs(25500,25500,2,0.12,1),'#8b98a6'],['Day before news',bs(25500,25500,2,0.22,1),'#facc15'],['After news, Nifty +60',bs(25560,25500,1.9,0.12,1),'#ff7a7a']];
+  txt(ctx,'Nifty at-the-money call, 2 days to expiry',pad,20,n?12:14,'#e6edf3','left',700,'"Space Grotesk", Inter, sans-serif');
+  const show=st.n>=4?3:st.n>=2?2:1;const B=H-46,T=58,mx=180;const bw=Math.min(120,(W-pad*2)/4);const gap=((W-pad*2)-3*bw)/4;
+  for(let k=0;k<show;k++){const [lab,v,col]=vals[k];const x=pad+gap+k*(bw+gap);const a=k===show-1?ease(clamp(t,0,1)):1;const h=(B-T)*v/mx*a;
+    ctx.fillStyle=col;ctx.fillRect(x,B-h,bw,h);txt(ctx,v.toFixed(0),x+bw/2,B-h-14,n?15:18,'#fff','center',700,'"JetBrains Mono", monospace');wrapCenter(ctx,lab,x+bw/2,B+14,bw+gap-8,n?10.5:12)}
+  if(st.n>=3){const x=pad+gap+2*(bw+gap);txt(ctx,'Nifty +60 ▲',x+bw/2,T-14,n?12:14,C.target,'center',700)}
+  if(st.n>=4){const xPaid=pad+gap+(bw+gap),xNow=pad+gap+2*(bw+gap);const yP=B-(B-T)*vals[1][1]/mx;ctx.setLineDash([5,4]);ctx.strokeStyle='#facc15';ctx.beginPath();ctx.moveTo(xPaid,yP);ctx.lineTo(xNow+bw,yP);ctx.stroke();ctx.setLineDash([]);
+    txt(ctx,'You paid '+vals[1][1].toFixed(0),xNow+bw+4>W-60?xNow:xNow+bw+4,yP-10,n?10.5:12,'#facc15','left',600);
+    const loss=(vals[1][1]-vals[2][1]);txt(ctx,'−'+loss.toFixed(0)+' pts = −₹'+fmt(loss*65)+' per lot',W/2,T-34+ (n?0:0),n?12:14,'#ff7a7a','center',700)}
+}
+function wrapCenter(ctx,s,x,y,maxW,size){ctx.font=`500 ${size}px Inter, sans-serif`;ctx.fillStyle=C.axis;ctx.textAlign='center';const words=s.split(' ');let line='',k=0;for(const w of words){const tst=line?line+' '+w:w;if(ctx.measureText(tst).width>maxW&&line){ctx.fillText(line,x,y+k*(size+3));k++;line=w}else line=tst}ctx.fillText(line,x,y+k*(size+3))}
+function drawOrders(ctx,W,H,st,t){
+  const n=W<600,pad=18,L=pad+40,R=W-pad-(n?96:150),T=34,B=H-30;const m=st.mode;
+  if(m==='charges'){txt(ctx,'Charges on 1 lot, buy + sell (approximate)',pad,24,n?12.5:15,'#e6edf3','left',700,'"Space Grotesk", Inter, sans-serif');
+    const rows=[['Brokerage','₹20 per order × 2','₹40'],['Exchange fees, taxes, GST','depends on the price','₹10–40'],['Total per round trip','','≈ ₹50–80']];
+    rows.forEach(([a,b,c],k)=>{const y=70+k*(n?44:52);const last=k===rows.length-1;if(last){ctx.strokeStyle='rgba(255,255,255,.25)';ctx.beginPath();ctx.moveTo(pad,y-22);ctx.lineTo(W-pad,y-22);ctx.stroke()}
+      txt(ctx,a,pad,y,n?12:14,last?'#facc15':'#e6edf3','left',600);if(b)txt(ctx,b,pad,y+(n?16:18),n?10.5:12,C.axis,'left',500);txt(ctx,c,W-pad,y,n?14:17,last?'#facc15':'#e6edf3','right',700,'"JetBrains Mono", monospace')});
+    txt(ctx,'A 5-point profit on crude Mini (₹50) can be fully eaten by charges.',pad,H-24,n?11:13,'#ff9b9b','left',600);return}
+  const paths={market:[418,418.5,419,420,421,422.5,423,424,425,426],limit:[418,419,420,421.5,423,425,427,428,429,430],sl:[425,424,423,421,420,418.5,417,415.5,414,412,410,409],slfail:[425,424,423,421.5,420,419,418,409,408,407,405]};
+  const p=paths[m];const lo=Math.min(...p)-3,hi=Math.max(...p)+3;const X=i=>L+(R-L)*i/(p.length-1),Y=v=>T+(hi-v)/(hi-lo)*(B-T);
+  ctx.strokeStyle='rgba(255,255,255,.08)';for(let v=Math.ceil(lo);v<=hi;v+=2){ctx.beginPath();ctx.moveTo(L,Y(v));ctx.lineTo(R,Y(v));ctx.stroke();txt(ctx,String(v),L-6,Y(v),10,C.axis,'right',500,'"JetBrains Mono", monospace')}
+  const shown=Math.max(2,Math.ceil(p.length*clamp(t*1.1,0,1)));ctx.strokeStyle='#e6edf3';ctx.lineWidth=2.4;ctx.beginPath();for(let i=0;i<shown;i++){i?ctx.lineTo(X(i),Y(p[i])):ctx.moveTo(X(i),Y(p[i]))}ctx.stroke();
+  const hline=(v,col,lab,dash)=>{ctx.strokeStyle=col;ctx.lineWidth=1.6;if(dash)ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(L,Y(v));ctx.lineTo(R,Y(v));ctx.stroke();ctx.setLineDash([]);txt(ctx,lab,R+8,Y(v),n?10.5:12,col,'left',600)};
+  const dot=(i,v,col,lab,below)=>{ctx.fillStyle=col;ctx.beginPath();ctx.arc(X(i),Y(v),6,0,Math.PI*2);ctx.fill();if(lab)txt(ctx,lab,X(i),Y(v)+(below?18:-18),n?10.5:12,col,'center',700)};
+  if(m==='market'){dot(3,420,'#facc15','You press Buy at 420',true);if(shown>6){dot(6,423,C.stop,'Filled at 423');txt(ctx,'Slippage: 3 points',R+8,Y(421.5),n?11:13,'#ff9b9b','left',700);txt(ctx,'= ₹30 crude · ₹195 Nifty',R+8,Y(421.5)+18,n?10:11.5,C.axis,'left',500)}}
+  if(m==='limit'){hline(421,'#2f9bff','Your limit 421',[5,4]);if(shown>=p.length)txt(ctx,'Never came back: not filled, no loss',(L+R)/2,Y(hi)+14,n?11:13,'#9fd0ff','center',700)}
+  if(m==='sl'||m==='slfail'){const trig=416,lim=m==='sl'?413:415;hline(trig,'#facc15','Trigger '+trig,[5,4]);hline(lim,C.stop,'Limit '+lim,[2,3]);
+    const cross=p.findIndex(v=>v<=trig);if(cross>=0&&shown>cross){if(m==='sl'){dot(cross,415.5,C.target,'Executed at 415.5',true)}else{dot(cross,409,C.stop,'Jumped past 415: order still OPEN',true)}}}
+}
+function drawCalendar(ctx,W,H,st,t){
+  const n=W<600,pad=16;txt(ctx,'Days and times to be careful',pad,22,n?13:15,'#e6edf3','left',700,'"Space Grotesk", Inter, sans-serif');
+  const rows=[['Nifty expiry day','Expiring options lose value fast in the last hours','#a855f7'],['RBI policy days','About every 2 months, around 10 AM','#facc15'],['Union Budget day','Usually 1 February','#facc15'],['US inflation & jobs data','Evenings in India: big for crude, and Nifty next morning','#ff9f43'],['Wednesday oil report','8 PM (summer) / 9 PM (winter): crude only','#ff9f43'],['Day after a long holiday','Big gap opens: wait out the first 15 minutes','#22d3ee']];
+  const rh=(H-46)/rows.length;rows.forEach(([a,b,col],k)=>{const y=44+k*rh+rh/2;const al=clamp(t*3-k*0.3,0,1);ctx.globalAlpha=al;ctx.fillStyle=col;ctx.fillRect(pad,y-rh*0.32,4,rh*0.64);
+    txt(ctx,a,pad+14,y-(n?8:0),n?12.5:14,'#e6edf3','left',700);txt(ctx,b,n?pad+14:W*0.42,y+(n?9:0),n?10.5:12.5,C.axis,'left',500);ctx.globalAlpha=1});
+}
+function drawMind(ctx,W,H,st,t){
+  const n=W<600;
+  if(st.card&&n){const w=W-40,x=20,y=H*0.18,h=H*0.62;roundRect(ctx,x,y,w,h,12);ctx.fillStyle='#fdf6d8';ctx.fill();
+    ['MY RULES','• Max 2 trades a day','• Stop after 2 losses','• Stop after a good win','• Risk 3% or less per trade','• No chasing big candles'].forEach((s,k)=>txt(ctx,s,x+18,y+28+k*(h-40)/6,k?14:16,'#3b3000','left',k?600:800));return}
+  const cx=n?W/2:W*0.3,cy=H*0.5,r=Math.min(n?W*0.3:W*0.2,H*0.34);const loop=['Loss','Urge to win it back','Bigger trade, no plan','Bigger loss'];
+  const pts=loop.map((s,k)=>{const a=-Math.PI/2+k*Math.PI/2;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]});
+  ctx.strokeStyle=st.m>=3?'rgba(255,92,92,.35)':'rgba(255,92,92,.8)';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
+  const ang=-Math.PI/2+(performance.now()/1400)%(Math.PI*2);if(st.m<3){ctx.fillStyle='#ff7a7a';ctx.beginPath();ctx.arc(cx+r*Math.cos(ang),cy+r*Math.sin(ang),6,0,Math.PI*2);ctx.fill()}
+  loop.forEach((s,k)=>{const [x,y]=pts[k];ctx.font=`700 ${n?11:13}px Inter, sans-serif`;const w=ctx.measureText(s).width+18;roundRect(ctx,x-w/2,y-15,w,30,8);ctx.fillStyle='#1a1214';ctx.fill();ctx.strokeStyle='#ff7a7a';ctx.lineWidth=1.5;ctx.stroke();txt(ctx,s,x,y,n?11:13,'#ffd0d0','center',700)});
+  if(st.m===2){const [x,y]=[cx,cy];ctx.font='700 12px Inter, sans-serif';txt(ctx,'+ chasing a',x,y-8,n?11:12.5,'#facc15','center',700);txt(ctx,'giant candle',x,y+10,n?11:12.5,'#facc15','center',700)}
+  if(st.card&&!n){const w=Math.min(280,W*0.3),x=W-w-20,y=H*0.2;roundRect(ctx,x,y,w,150,12);ctx.fillStyle='#fdf6d8';ctx.fill();
+    ['MY RULES','• Max 2 trades a day','• Stop after 2 losses','• Stop after a good win','• Risk 3% or less','• No chasing big candles'].forEach((s,k)=>txt(ctx,s,x+16,y+22+k*22,k?13:14,'#3b3000','left',k?600:800));return}
+  if(st.m>=3&&!n){const gx=W*0.66;const green=['Stop after 2 losses','Review your log','Fresh start tomorrow'];
+    ctx.strokeStyle=C.target;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(pts[0][0]+50,pts[0][1]);ctx.lineTo(gx-80,H*0.22);ctx.stroke();arrow(ctx,gx-80,H*0.22,Math.atan2(H*0.22-pts[0][1],gx-80-pts[0][0]-50));
+    green.forEach((s,k)=>{const y=H*0.22+k*(H*0.24);const w=170;roundRect(ctx,gx-w/2,y-16,w,32,8);ctx.fillStyle='#0f1d18';ctx.fill();ctx.strokeStyle=C.target;ctx.stroke();txt(ctx,s,gx,y,13,'#c9f3e3','center',700);
+      if(k<green.length-1){ctx.strokeStyle=C.target;ctx.beginPath();ctx.moveTo(gx,y+16);ctx.lineTo(gx,y+H*0.24-16);ctx.stroke();arrow(ctx,gx,y+H*0.24-16,Math.PI/2)}})}
+  if(st.m>=3&&n){txt(ctx,'Exit the loop: stop after 2 losses → review your log → fresh start tomorrow',W/2,H-16,10.5,C.target,'center',700)}
+}
+
+/* ---------- lesson player ---------- */
+const PL={L:0,S:0,playing:false,timer:null,raf:null,seen:{},chart:null};
+const DRAW={anatomy:[drawAnatomy,'One 5-minute candle'],flow:[drawFlow,'From idea to real money'],opt:[drawOpt,'Crude Oil Mini options · 25 days to expiry'],strike:[drawStrike,'Nifty options · example prices'],
+  decay:[drawDecay,'What happens to an option over time'],iv:[drawIV,'Nifty option before and after news'],orders:[drawOrders,'Order types in your broker app'],calendar:[drawCalendar,'Check the calendar every morning'],mind:[drawMind,'The loss loop and how to leave it']};
+function dayLabel(k){const nifty=k.startsWith('N:');const dt=nifty?k.slice(2):k;const lab=new Date(dt+'T00:00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});return (nifty?'Nifty 50 index · ':'Crude Oil Mini · ')+lab+' · 5-min'}
+const reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function speed(){return Number($('#speedSel').value)||1}
+function buildLessonNav(){
+  const nav=$('#lessonNav');nav.innerHTML='';LESSONS.forEach((L,i)=>{if(i===0||(L.part||1)!==(LESSONS[i-1].part||1)){const s=document.createElement('span');s.className='partlab';s.textContent=(L.part||1)===1?'Part 1 · Reading charts':'Part 2 · Options & real trading';nav.appendChild(s)}
+    const b=document.createElement('button');b.innerHTML=`<span class="n">${i+1}</span>${L.title}`;b.addEventListener('click',()=>{stopPlay();openLesson(i,0)});nav.appendChild(b)});
+}
+function openLesson(i,s){PL.L=i;location.hash='lesson-'+(i+1);
+  document.querySelectorAll('#lessonNav button').forEach((b,k)=>{b.setAttribute('aria-current',k===i?'true':'false');b.classList.toggle('done',!!(PL.seen[k]&&PL.seen[k].size===LESSONS[k].steps.length))});
+  const cur=document.querySelectorAll('#lessonNav button')[i];if(cur)cur.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
+  $('#lessonTitle').textContent=(i+1)+'. '+LESSONS[i].title;$('#calcPanel').hidden=!LESSONS[i].calc;store('c2t_lesson',i);buildMap(LESSONS[i].part||1);
+  PL.prevKey=null;goStep(s,true)}
+function goStep(s,fresh){
+  const L=LESSONS[PL.L];s=clamp(s,0,L.steps.length-1);const prevS=PL.S;PL.S=s;const st=L.steps[s];
+  (PL.seen[PL.L]=PL.seen[PL.L]||new Set()).add(s);
+  $('#stepOf').textContent=`Step ${s+1} of ${L.steps.length}`;$('#captionText').innerHTML=markup(st.cap);
+  const dots=$('#dots');dots.innerHTML='';L.steps.forEach((_,k)=>{const b=document.createElement('button');b.className=(k===s?'on':(PL.seen[PL.L].has(k)?'seen':''));b.setAttribute('aria-label','Step '+(k+1));b.addEventListener('click',()=>{stopPlay();goStep(k)});dots.appendChild(b)});
+  $('#btnBack').disabled=s===0&&PL.L===0;$('#btnNext').textContent=(s===L.steps.length-1&&PL.L<LESSONS.length-1)?'Next lesson ▶':'Next ▶';$('#btnNext').disabled=(s===L.steps.length-1&&PL.L===LESSONS.length-1);
+  lightMap(st.nodes||[],st.links||[]);
+  const ch=PL.chart;cancelAnimationFrame(PL.raf);
+  const kind=st.kind||L.kind;
+  if(kind&&DRAW[kind]){const [drawer,label]=DRAW[kind];$('#lessonDay').textContent=label;ch.key=null;
+    const t0=performance.now();const dur=reduceMotion?1:(kind==='anatomy'&&s===0?2600:kind==='opt'?1400:900)/speed();let called=false;
+    const frame=now=>{const t=clamp((now-t0)/dur,0,1);ch.custom=(ctx,W,H)=>drawer(ctx,W,H,kind==='anatomy'?s:st,t);ch.draw();
+      if(t>=1&&!called){called=true;afterReveal()}if(t<1||(kind==='mind'&&!reduceMotion))PL.raf=requestAnimationFrame(frame)};PL.raf=requestAnimationFrame(frame);return}
+  ch.custom=null;const dayKey=st.day||L.day;const d=DAYS[dayKey];const sameDay=ch.key===dayKey&&!fresh;const view=st.view||L.view;
+  ch.setDay(dayKey);ch.panes={vol:true,rsi:!!(L.panes&&L.panes.rsi),macd:!!(L.panes&&L.panes.macd)};
+  ch.i0=idx(d,view[0]);ch.i1=Math.min(d.n-1,idx(d,view[1]));
+  const target=idx(d,st.upto);$('#lessonDay').textContent=dayLabel(dayKey);
+  ch.ov=(st.ov||[]).map(o=>resolve(o,d));ch.ovA=0;
+  let from=sameDay&&s>prevS?Math.min(ch.reveal,target):(sameDay&&s<prevS?target:ch.i0+Math.min(12,target-ch.i0));
+  if(sameDay&&s<prevS)from=target;
+  ch.reveal=from;ch.draw();
+  const bps=30*speed();const dur=reduceMotion?0:Math.max(0,(target-from)/bps*1000);const t0=performance.now();
+  const frame=now=>{const t=dur?clamp((now-t0)/dur,0,1):1;ch.reveal=from+(target-from)*t;ch.draw();if(t<1)PL.raf=requestAnimationFrame(frame);else fadeOv()};
+  PL.raf=requestAnimationFrame(frame);
+}
+function fadeOv(){const ch=PL.chart;const t0=performance.now();const dur=reduceMotion?1:450;const frame=now=>{ch.ovA=clamp((now-t0)/dur,0,1);ch.draw();if(ch.ovA<1)PL.raf=requestAnimationFrame(frame);else afterReveal()};PL.raf=requestAnimationFrame(frame)}
+function afterReveal(){clearTimeout(PL.timer);if(!PL.playing)return;const st=LESSONS[PL.L].steps[PL.S];const words=st.cap.replace(/<[^>]+>|\[\[\w+\||\]\]/g,'').split(/\s+/).length;
+  const hold=Math.max(4200,words*330)/speed();PL.timer=setTimeout(()=>{if(!PL.playing)return;nextStep(true)},hold)}
+function nextStep(auto){const L=LESSONS[PL.L];if(PL.S<L.steps.length-1)goStep(PL.S+1);else if(PL.L<LESSONS.length-1){openLesson(PL.L+1,0)}else stopPlay()}
+function prevStep(){if(PL.S>0)goStep(PL.S-1);else if(PL.L>0){openLesson(PL.L-1,LESSONS[PL.L-1].steps.length-1)}}
+function startPlay(){PL.playing=true;$('#btnPlay').textContent='❚❚ Pause';const L=LESSONS[PL.L];if(PL.S===L.steps.length-1&&PL.L===LESSONS.length-1){openLesson(0,0)}else afterReveal()}
+function stopPlay(){PL.playing=false;clearTimeout(PL.timer);$('#btnPlay').textContent='▶ Play'}
+
+/* ---------- calculator ---------- */
+function buildCalc(mount,idp){
+  mount.innerHTML=`<div class="calc">
+   <label for="${idp}inst">What are you trading<select id="${idp}inst"><option value="65">Nifty option (65 per lot)</option><option value="10">Crude Mini option (10 per lot)</option></select></label>
+   <label for="${idp}bal">Your account (₹)<input id="${idp}bal" type="number" value="11180" step="100"></label>
+   <label for="${idp}en">Buy price<input id="${idp}en" type="number" value="130" step="0.5"></label>
+   <label for="${idp}st">Stop-loss price<input id="${idp}st" type="number" value="118" step="0.5"></label>
+   <label for="${idp}tg">Target price<input id="${idp}tg" type="number" value="158" step="0.5"></label></div>
+   <div class="result" id="${idp}res"></div><div class="checks" id="${idp}chk"></div><p class="verdict" id="${idp}ver"></p>
+   <p class="note" style="margin-top:6px">Example filled in: today's Nifty 25550 call breakout (buy 130, stop 118, target 158). Charges of about ₹60 per round trip are included.</p>`;
+  const q=s=>mount.querySelector('#'+idp+s);
+  const upd=()=>{const u=Number(q('inst').value),bal=Number(q('bal').value),en=Number(q('en').value),st=Number(q('st').value),tg=Number(q('tg').value);
+    const risk=Math.abs(en-st)*u+60,rew=Math.abs(tg-en)*u-60,cost=en*u,rr=Math.abs(tg-en)/Math.max(1e-9,Math.abs(en-st));
+    const okSide=(tg>en&&st<en)||(tg<en&&st>en);
+    q('res').innerHTML=`<div class="cell"><div class="lab">Cost of 1 lot</div><div class="val">₹${fmt(cost)}</div><div class="note">${bal?Math.round(cost/bal*100):0}% of your account</div></div>
+      <div class="cell"><div class="lab">If the stop is hit</div><div class="val neg">−₹${fmt(risk)}</div><div class="note">${bal?(risk/bal*100).toFixed(1):0}% of your account</div></div>
+      <div class="cell"><div class="lab">If the target is hit</div><div class="val pos">+₹${fmt(rew)}</div></div>
+      <div class="cell"><div class="lab">Reward ÷ risk</div><div class="val">${okSide?rr.toFixed(1):'–'}</div></div>`;
+    const c1=okSide&&rr>=1.5,c2=risk<=bal*0.03,c3=cost<=bal*0.5;
+    q('chk').innerHTML=[[c1,'Reward at least 1.5× the risk'],[c2,'Loss at stop is 3% of account or less'],[c3,'Costs half the account or less']].map(([ok,t])=>`<span class="pill ${ok?'ok':'no'}">${ok?'✓':'✗'} ${t}</span>`).join('');
+    q('ver').textContent=!okSide?'Check the numbers: for a call the stop is below the buy price and the target above it.':(c1&&c2&&c3)?'Passes all three checks. The chart decides the rest.':(!c2||!c3)?'Too big for this account. Skip it, or choose a cheaper option or a closer stop at a real level.':'Reward is too small for the risk. Skip this one.';};
+  mount.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',upd));upd();
+}
+
+/* ---------- practice room ---------- */
+const PR={key:null,rv:0,playing:false,timer:null,trade:null,log:store('c2t_log_v1')||[],chart:null,inst:'crude'};
+const MULT=()=>PR.inst==='nifty'?65:10;
+function prFillDays(){const list=PR.inst==='nifty'?NKEYS:KEYS;$('#daySel').innerHTML=list.map(k=>`<option value="${k}">${new Date(k.replace('N:','')+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',weekday:'short'})}</option>`).join('')}
+function prSetInst(v){if(PR.trade){$('#pMsg').textContent='Close your open trade before switching market.';$('#instSel').value=PR.inst;return}PR.inst=v;$('#instSel').value=v;prFillDays();
+  $('#pStop').value=v==='nifty'?20:30;$('#pTarget').value=v==='nifty'?40:60;const list=v==='nifty'?NKEYS:KEYS;prOpen(list[Math.floor(Math.random()*list.length)])}
+function prOpen(k){prStop();PR.key=k;const d=DAYS[k];PR.chart.setDay(k);const start=PR.inst==='nifty'?'10:00':'12:00';PR.rv=idx(d,start);PR.trade=null;PR.chart.ov=[];$('#daySel').value=k;prRender();
+  $('#pMsg').textContent=`Replay starts at ${start}. Step forward, read the chart, and buy a call or put when you see a setup. You can also skip the day.`}
+function prView(){const ch=PR.chart,d=ch.d;const span=W_span();ch.i0=Math.max(0,PR.rv-span+10);ch.i1=ch.i0+span-1;ch.reveal=PR.rv}
+function W_span(){return PR.chart.W<560?48:84}
+function prRender(){const ch=PR.chart,d=ch.d;prView();
+  const ov=[];const T=PR.trade;if(T){ov.push(resolve({t:'trade',entry:T.entry,stop:T.stop,target:T.target,at:hhmm(d.m[T.i])},d))}ch.ov=ov;ch.ovA=1;ch.extraPrices=T?[T.stop,T.target]:null;ch.draw();
+  $('#pClock').textContent=hhmm(d.m[PR.rv]+5)+' · '+fmt(d.c[PR.rv]);
+  const atEnd=PR.rv>=d.n-1;$('#pNext').disabled=atEnd;$('#pPlay').disabled=atEnd;$('#pCall').disabled=!!T||atEnd;$('#pPut').disabled=!!T||atEnd;$('#pExit').disabled=!T;
+  const sp=Number($('#pStop').value)||0,tp=Number($('#pTarget').value)||0;$('#pRR').textContent=sp?`Reward ÷ risk = ${(tp/sp).toFixed(1)} ${tp/sp>=1.5?'✓':'(below 1.5)'} · Option risk ≈ ₹${fmt(sp*0.5*MULT()+60)}`:'';
+  const mk=PR.inst==='nifty'?'Nifty':'crude';
+  if(T){const pts=T.side*(d.c[PR.rv]-T.entry);const rs=pts*0.5*MULT()-60;$('#pTrade').innerHTML=`<b>${T.side>0?'Call':'Put'}</b> bought at ${hhmm(d.m[T.i]+5)}, ${mk} ${fmt(T.entry)}<br>Stop ${fmt(T.stop)} · Target ${fmt(T.target)}<br>Now: <span class="${pts>=0?'pos':'neg'} mono">${pts>=0?'+':''}${fmt(pts)} pts ≈ ${rs>=0?'+':'−'}₹${fmt(Math.abs(rs))}</span>`}
+  else $('#pTrade').textContent='No open trade.';
+  prHud()}
+function prHud(){const d=PR.chart.d,i=PR.rv;if(!$('#pHints').checked){$('#pHud').innerHTML='<span class="note">Hidden. Decide on your own, then turn it on to check.</span>';return}
+  const above=d.c[i]>d.vw[i];const back=Math.max(0,i-24);const slope=d.vw[i]-d.vw[back];const sl=slope>d.c[i]*0.0008?'up':slope<-d.c[i]*0.0008?'down':'flat';
+  let n=0,s=Math.sign(d.c[back]-d.vw[back]);for(let k=back+1;k<=i;k++){const t=Math.sign(d.c[k]-d.vw[k]);if(t&&s&&t!==s)n++;if(t)s=t}
+  let av=0,c=0;for(let k=Math.max(0,i-20);k<i;k++){av+=d.v[k];c++}const vr=c?d.v[i]/(av/c):1;
+  let verdict,cls;if(above&&sl==='up'&&n<=3){verdict='Up day so far → this method studies calls';cls='pos'}else if(!above&&sl==='down'&&n<=3){verdict='Down day so far → this method studies puts';cls='neg'}else{verdict='Choppy or unclear → skip for now';cls=''}
+  const ln=d.novol?'day average':'VWAP';
+  $('#pHud').innerHTML=`<div class="line"><span>Price vs ${ln}</span><span>${above?'above':'below'} (${fmt(d.c[i]-d.vw[i])})</span></div>
+   <div class="line"><span>${d.novol?'Day average':'VWAP'} slope (2 hours)</span><span>${sl}</span></div><div class="line"><span>Crossings (2 hours)</span><span>${n}</span></div>
+   <div class="line"><span>This candle's volume</span><span>${d.novol?'none (index)':vr.toFixed(1)+'× normal'}</span></div><div class="line"><span>RSI</span><span>${d.rsi[i].toFixed(0)}</span></div>
+   <div class="verdict-box ${cls}">${verdict}</div>`}
+function prStep(){const d=PR.chart.d;if(PR.rv>=d.n-1){prStop();prCloseAtEnd();return}PR.rv++;const T=PR.trade;
+  if(T){const i=PR.rv;let ex=null,why='';if(T.side>0){if(d.l[i]<=T.stop){ex=T.stop;why='stop-loss hit'}else if(d.h[i]>=T.target){ex=T.target;why='target hit'}}else{if(d.h[i]>=T.stop){ex=T.stop;why='stop-loss hit'}else if(d.l[i]<=T.target){ex=T.target;why='target hit'}}
+    if(ex!=null)prClose(ex,why)}
+  if(PR.rv>=d.n-1){prStop();prCloseAtEnd()}prRender()}
+function prCloseAtEnd(){if(PR.trade){prClose(PR.chart.d.c[PR.chart.d.n-1],'closed at end of day')}else{$('#pMsg').textContent='End of the day. Pick another day to keep practising.'}}
+function prClose(px,why){const T=PR.trade,d=PR.chart.d;const pts=T.side*(px-T.entry);const rs=Math.round(pts*0.5*MULT()-60);
+  PR.log.unshift({day:PR.key,side:T.side>0?'Call':'Put',inT:hhmm(d.m[T.i]+5),pts:Math.round(pts),rs});store('c2t_log_v1',PR.log.slice(0,200));
+  $('#pMsg').innerHTML=`Trade closed (${why}): ${pts>=0?'+':''}${fmt(pts)} points ≈ <b class="${rs>=0?'pos':'neg'}">${rs>=0?'+':'−'}₹${fmt(Math.abs(rs))}</b>. Keep stepping to see what happened next.`;
+  PR.trade=null;prScore()}
+function prBuy(side){const d=PR.chart.d,i=PR.rv;const sp=Math.max(1,Number($('#pStop').value)||30),tp=Math.max(1,Number($('#pTarget').value)||60);
+  PR.trade={side,i,entry:d.c[i],stop:d.c[i]-side*sp,target:d.c[i]+side*tp};$('#pMsg').textContent=`${side>0?'Call':'Put'} bought at ${PR.inst==='nifty'?'Nifty':'crude'} ${fmt(d.c[i])}. Stop and target are on the chart. Step forward to see how it plays out.`;prRender()}
+function prScore(){const L=PR.log;$('#sN').textContent=L.length;$('#sW').textContent=L.filter(x=>x.rs>0).length;const tot=L.reduce((a,b)=>a+b.rs,0);$('#sT').textContent=(tot>=0?'+':'−')+fmt(Math.abs(tot));$('#sT').className='val '+(tot>=0?'pos':'neg');
+  $('#sLog').innerHTML=L.slice(0,40).map(x=>`<tr><td>${x.day.startsWith('N:')?'Nifty '+x.day.slice(7):'Crude '+x.day.slice(5)}</td><td>${x.side}</td><td>${x.inT}</td><td class="${x.rs>=0?'pos':'neg'} mono">${x.rs>=0?'+':'−'}₹${fmt(Math.abs(x.rs))}</td></tr>`).join('')||'<tr><td colspan="4" class="note">No trades yet.</td></tr>'}
+function prPlay(){if(PR.playing){prStop();return}PR.playing=true;$('#pPlay').textContent='❚❚ Pause';const tick=()=>{if(!PR.playing)return;prStep();PR.timer=setTimeout(tick,1000/(Number($('#pSpeed').value)||2))};tick()}
+function prStop(){PR.playing=false;clearTimeout(PR.timer);$('#pPlay').textContent='▶ Play'}
+
+/* ---------- checklist ---------- */
+const STEPS=[
+ ['Money first',['Loss at stop-loss: 3% of account or less.','One lot costs half the account or less.','1 option point: ₹65 on Nifty, ₹10 on Crude Mini.','Max 2 trades a day. Never trade to win back a loss.'],8],
+ ['Check the calendar',['Expiry day? RBI policy? Budget? Big US data?','Crude: Wednesday oil report at 8 PM (9 PM in winter).','No new trade 15 minutes before or after any of these.'],20],
+ ['Mark levels before 9:15',['Yesterday\'s high and low.','Ceilings and floors from recent days.','After 9:30: the first 15 minutes\' high and low.'],19],
+ ['Read the day',['Price above or below VWAP (day average on the Nifty index)?','Is it sloping or flat? How many crossings in 2 hours?','Up day: calls only. Down day: puts only. Choppy: skip.'],3],
+ ['Pick the right option',['Strike nearest the market, or one step in the money.','Avoid cheap far-away strikes.','Enough days left; no expiring option over a weekend.','Not in the last hour before big news.'],13],
+ ['Wait for one of two entries',['Breakout: a 5-min candle CLOSES beyond the level, on bigger volume.','Dip: on a trend day, price comes back to the blue line or VWAP, holds, and closes in the trend direction.','Never buy mid-box, right under a ceiling, or after a giant candle.'],5],
+ ['Write 3 numbers',['Entry, stop (just past the level that proves you wrong), target (next level).','Reward ÷ risk 1.5 or more, or skip.','Check them in the calculator below.'],8],
+ ['Place orders the right way',['Buy with a limit order near the current price.','Set the stop-loss order at once: trigger + limit a few points lower.','After a stop triggers, check it says Executed, not Open.'],16],
+ ['Manage it',['Halfway to target: move stop to entry.','At target: sell.','Exit by 3:15 PM (Nifty) or 11:30 PM (crude).'],9],
+ ['Warning signs',['RSI above 70 (or below 30) with shrinking volume.','Long wicks at the same level again and again.','A giant candle after a long move. MACD crossing against you.'],10],
+ ['Check yourself',['Angry or in a hurry after a loss? Stop for the day.','Chasing a candle because of fear of missing out? Skip.','Read your rules card before every trade.'],21],
+ ['Get better',['Practise 20 trades in the Practice room (crude and Nifty).','Keep a log: rule used, entry, stop, target, result.','Use the app\'s tested trend-follow signal as a second opinion.'],11]];
+function buildSteps(){$('#stepsGrid').innerHTML=STEPS.map(([t,items,L],k)=>`<div class="stepcard"><span class="no">STEP ${k+1}</span><h3>${t}</h3><ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul><button class="go" data-l="${L}">Watch lesson ${L+1} ▶</button></div>`).join('');
+  document.querySelectorAll('#stepsGrid .go').forEach(b=>b.addEventListener('click',()=>{showView('lessons');openLesson(Number(b.dataset.l),0)}))}
+
+/* ---------- views + wiring ---------- */
+function showView(v){document.querySelectorAll('.view').forEach(s=>{s.hidden=s.id!=='view-'+v;if(s.id==='view-lessons')s.style.display=s.hidden?'none':'flex'});
+  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===v?'true':'false'));
+  if(v!=='lessons')stopPlay();if(v!=='practice')prStop();
+  if(v==='practice'){location.hash='practice';requestAnimationFrame(()=>{PR.chart.resize();prRender()})}
+  if(v==='checklist')location.hash='checklist';
+  if(v==='lessons'){location.hash='lesson-'+(PL.L+1);requestAnimationFrame(()=>PL.chart.resize())}}
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+$('#btnPlay').addEventListener('click',()=>PL.playing?stopPlay():startPlay());
+$('#btnNext').addEventListener('click',()=>{const was=PL.playing;nextStep();if(!was)stopPlay()});
+$('#btnBack').addEventListener('click',()=>{stopPlay();prevStep()});
+$('#speedSel').addEventListener('change',()=>{if(PL.playing)afterReveal()});
+document.addEventListener('keydown',e=>{if($('#view-lessons').hidden||e.target.closest('input,select,textarea'))return;if(e.key===' '){e.preventDefault();PL.playing?stopPlay():startPlay()}else if(e.key==='ArrowRight'){nextStep()}else if(e.key==='ArrowLeft'){stopPlay();prevStep()}});
+$('#captionText').addEventListener('mouseover',e=>{const k=e.target.closest('.k');if(!k)return;const g=document.querySelector(`#mapSvg .node[data-k="${k.dataset.k}"]`);if(g)g.classList.add('on')});
+$('#captionText').addEventListener('mouseout',e=>{if(!e.target.closest('.k'))return;const st=LESSONS[PL.L].steps[PL.S];lightMap(st.nodes||[],st.links||[])});
+
+async function init(){
+  PL.chart=new Chart($('#lessonCanvas'),'lesson');PR.chart=new Chart($('#pracCanvas'),'practice');
+  PL.chart.custom=(ctx,W,H)=>{ctx.fillStyle='#9fb0ab';ctx.font='14px Inter, sans-serif';ctx.textAlign='center';ctx.fillText('Loading chart data…',W/2,H/2)};PL.chart.draw();
+  buildMap();buildLessonNav();buildSteps();buildCalc($('#calcMountLesson'),'cl');buildCalc($('#calcMountCheck'),'cc');
+  try{const [r1,r2]=await Promise.all([fetch('crude_days.json'),fetch('nifty_days.json')]);DAYS=Object.assign(await r1.json(),await r2.json())}catch(e){PL.chart.custom=(ctx,W,H)=>{ctx.fillStyle='#ff7a7a';ctx.font='14px Inter, sans-serif';ctx.textAlign='center';ctx.fillText('Could not load the chart data. Reload the page to try again.',W/2,H/2)};PL.chart.draw();return}
+  for(const k of Object.keys(DAYS))prep(DAYS[k]);KEYS=Object.keys(DAYS).filter(k=>!k.startsWith('N:')).sort();NKEYS=Object.keys(DAYS).filter(k=>k.startsWith('N:')).sort();
+  prFillDays();$('#instSel').addEventListener('change',e=>prSetInst(e.target.value));
+  $('#daySel').addEventListener('change',e=>{if(PR.trade){$('#pMsg').textContent='Close your open trade before changing day.';$('#daySel').value=PR.key;return}prOpen(e.target.value)});
+  $('#btnRandom').addEventListener('click',()=>{if(PR.trade){$('#pMsg').textContent='Close your open trade before changing day.';return}const list=PR.inst==='nifty'?NKEYS:KEYS;prOpen(list[Math.floor(Math.random()*list.length)])});
+  $('#pNext').addEventListener('click',()=>{prStop();prStep()});$('#pPlay').addEventListener('click',prPlay);
+  $('#pCall').addEventListener('click',()=>prBuy(1));$('#pPut').addEventListener('click',()=>prBuy(-1));
+  $('#pExit').addEventListener('click',()=>{const d=PR.chart.d;prClose(d.c[PR.rv],'you exited');prRender()});
+  $('#pHints').addEventListener('change',prHud);['#pStop','#pTarget'].forEach(s=>$(s).addEventListener('input',prRender));
+  let armed=false;$('#sClear').addEventListener('click',()=>{if(!armed){armed=true;$('#sClearMsg').textContent='Click again to clear all practice trades.';setTimeout(()=>{armed=false;$('#sClearMsg').textContent=''},4000);return}PR.log=[];store('c2t_log_v1',[]);armed=false;$('#sClearMsg').textContent='Cleared.';prScore()});
+  prOpen('2026-10-22');prScore();
+  const h=location.hash.replace('#','');const saved=store('c2t_lesson');
+  if(h==='practice')showView('practice');else if(h==='checklist')showView('checklist');
+  const m=/^lesson-(\d+)$/.exec(h);openLesson(m?clamp(Number(m[1])-1,0,LESSONS.length-1):(Number.isInteger(saved)?saved:0),0);
+  if(h==='practice'||h==='checklist')showView(h);
+}
+window.addEventListener('hashchange',()=>{const h=location.hash.replace('#','');if(h==='practice'||h==='checklist')showView(h);else{const m=/^lesson-(\d+)$/.exec(h);if(m&&Number(m[1])-1!==PL.L){showView('lessons');openLesson(clamp(Number(m[1])-1,0,LESSONS.length-1),0)}}});
+init();
+</script>
+
+<footer class="c2t-foot"><p><a href="/">CalC</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/privacy-policy/">Privacy</a> · <a href="/disclaimer/">Disclaimer</a></p>
+<p>Chart to Trade is for education only, using past market data. Nothing here is investment advice. © 2026 CalC · calci.co.in</p></footer></body></html>
