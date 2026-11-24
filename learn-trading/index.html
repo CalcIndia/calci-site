@@ -625,11 +625,11 @@ function drawFlow(ctx,W,H,st,t){
     roundRect(ctx,x,y,gw,gh,10);ctx.fill();ctx.stroke();ctx.fillStyle=act?'#e6edf3':done?'#b9e9dc':'#8b98a6';ctx.font=`600 ${narrow?12:14}px "Space Grotesk", Inter, sans-serif`;ctx.textAlign='center';
     ctx.fillText((done?'✓ ':'')+(i+1)+'. '+GATES[i],x+gw/2,y+gh/2)}
   const by=gy0+rows*(gh+vgap)-vgap+(narrow?20:26);const fs=narrow?11.5:13;const lh=fs+5;ctx.font=`600 ${fs}px Inter, sans-serif`;ctx.textAlign='left';
-  if(st.ex){const ex=[['✓','Nifty trend follow (the app\'s rule): made money on the unseen years','#34d399'],['✗','Crude box breakouts: 0 of 240 versions made money over 10 years','#ff7a7a'],['✗','Crude scalping: lost money in every setup and every year','#ff7a7a'],['✗','Crude trend follow: lost money in most years','#ff7a7a']];
+  if(st.ex){const ex=[['✗','Example idea A: great on old data, fails on the unseen years','#ff7a7a'],['✗','Example idea B: small profit before costs, a loss after costs','#ff7a7a'],['✓','Example idea C: holds up on the unseen years, so it moves on to paper trading','#34d399']];
     let y=by;const show=Math.ceil(clamp(t*1.6,0,1)*ex.length);ex.slice(0,show).forEach(([m,txt,col])=>{ctx.fillStyle=col;ctx.fillText(m,pad,y);ctx.fillStyle='#d6dee6';const n=wrapLines(ctx,txt,pad+20,y,W-pad*2-20,lh);y+=n*lh+6})}
-  if(st.cost){const lw=narrow?118:160;const bwid=W-pad*2-lw-48;const a=Math.min(1,t*1.6);const bars=[['Average gain per trade',3,'#34d399'],['Cost per trade',120,'#ff7a7a']];
+  if(st.cost){const lw=narrow?118:160;const bwid=W-pad*2-lw-48;const a=Math.min(1,t*1.6);const bars=[['Average gain per trade (example)',3,'#34d399'],['Cost per trade (example)',120,'#ff7a7a']];
     bars.forEach(([lab,v,col],k)=>{const y=by+k*36;ctx.fillStyle='#d6dee6';wrapLines(ctx,lab,pad,y,lw-8,lh);ctx.fillStyle=col;const w=Math.max(3,bwid*(v/120)*a);ctx.fillRect(pad+lw,y-9,w,18);ctx.fillStyle='#e6edf3';ctx.fillText('₹'+v,pad+lw+w+8,y)})
-    ctx.fillStyle='#8b98a6';wrapLines(ctx,'Crude scalping, 2016–2026, per trade on 1 lot of the future',pad,by+78,W-pad*2,lh)}
+    ctx.fillStyle='#8b98a6';wrapLines(ctx,'Illustration: an idea with a tiny gain per trade, against the cost of each trade',pad,by+78,W-pad*2,lh)}
   if(st.mine){const lines=['Write down for every trade:','• The rule you used (e.g. "breakout of a 3-hour box, volume 2×")','• Entry, stop, target and result','After 20 trades: which rules made money?'];
     let y=by;lines.forEach((l,k)=>{ctx.fillStyle=k?'#d6dee6':'#facc15';const n=wrapLines(ctx,l,pad,y,W-pad*2,lh);y+=n*lh+4})}
 }
