@@ -212,7 +212,7 @@ input[type=text]{width:100%;margin-top:6px;padding:11px;border-radius:10px;borde
 <script>
 (() => {
 'use strict';
-const VERSION = '1.29';
+const VERSION = '1.30';
 const $ = id => document.getElementById(id);
 if (!window.THREE) { $('ui').hidden = true; $('nogl').hidden = false; return; }
 
@@ -1545,7 +1545,7 @@ function renderCareer() {
     const it = h('button', 'item' + (open ? '' : ' locked')); it.type = 'button';
     const mid = h('span', 'mid'); mid.append(h('b', '', tk.name), h('small', '', (tk.dirt ? 'Off-road' : 'Road') + ', ' + st.laps + (st.laps > 1 ? ' laps, ' : ' lap, ') + CLASS_NAME[st.cat] + ' only. ' + (carFor(st.cat) ? 'You drive: ' + CAR[carFor(st.cat)].name : 'You have no car of this type yet')));
     const end = h('span', 'end'); end.append(h('span', 'stars', open ? starText(stars) : 'Locked'), h('br'), h('span', '', num(st.reward) + ' coins'));
-    it.append(h('span', 'num', st.i + 1), miniSvg(st.track), mid, end);
+    it.append(h('span', 'num', st.i + 1), mid, end);
     it.addEventListener('click', () => {
       if (!open) return toast('Finish stage ' + st.i + ' in the top 3 to open this stage.');
       startStage(st);
@@ -1627,7 +1627,7 @@ function renderQuick() {
   const add = (tk, k) => {
     const it = h('button', 'item'); it.type = 'button'; const mid = h('span', 'mid'), laps = lapsOf(k);
     mid.append(h('b', '', tk.name), h('small', '', (tk.kart ? 'Kart track. Best with go karts. ' : tk.dirt ? 'Off-road. Best with rally cars and pickups. ' : 'Road. ') + laps + (laps > 1 ? ' laps' : ' lap')));
-    it.append(miniSvg(k), mid, h('span', 'end', save.best[tk.id] > 0 ? 'Best lap ' + fmt(save.best[tk.id]) : 'No time yet'));
+    it.append(mid, h('span', 'end', save.best[tk.id] > 0 ? 'Best lap ' + fmt(save.best[tk.id]) : 'No time yet'));
     it.addEventListener('click', () => { quickTrack = k; startRace({ type: 'quick', track: k, laps }); });
     list.append(it);
   };
@@ -1781,15 +1781,19 @@ function drawSpeedFx(e, dt, on) {
     fxX.beginPath(); fxX.moveTo(cx + c * r0, cy + sn * r0 * 0.8); fxX.lineTo(cx + c * r1, cy + sn * r1 * 0.8); fxX.stroke();
   }
 }
+let camH = null;
 function chaseCam(e, dt) {
   if (e.mesh.userData.hid) { e.mesh.userData.hid = false; for (const ch of e.mesh.children) ch.visible = true; }
-  const ck = e.mesh.userData.camK || 1, tx = e.x - Math.sin(e.h) * 9.5 * ck, tz = e.z - Math.cos(e.h) * 9.5 * ck, k = camSnap ? 1 : Math.min(1, 6 * dt), kl = camSnap ? 1 : Math.min(1, 10 * dt);
-  camPos.x += (tx - camPos.x) * k; camPos.z += (tz - camPos.z) * k; const sf = reduceMotion ? 0 : clamp(Math.abs(e.v) / 70, 0, 1); camPos.y += ((4.2 - 1.7 * sf) * ck - camPos.y) * k;
+  // camera stays a fixed distance behind the car at every speed (it only swings smoothly round corners)
+  const ck = e.mesh.userData.camK || 1, k = camSnap ? 1 : Math.min(1, 6 * dt), kl = camSnap ? 1 : Math.min(1, 10 * dt);
+  if (camSnap || camH === null) camH = e.h; else { let dh = e.h - camH; dh -= Math.round(dh / TAU) * TAU; camH += dh * Math.min(1, 7 * dt); }
+  const sf = reduceMotion ? 0 : clamp(Math.abs(e.v) / 70, 0, 1), dist = 9.5 * ck * (1 + 0.06 * sf);
+  camPos.x = e.x - Math.sin(camH) * dist; camPos.z = e.z - Math.cos(camH) * dist; camPos.y += ((4.2 - 1.3 * sf) * ck - camPos.y) * k;
   camLook.x += (e.x + Math.sin(e.h) * 7 - camLook.x) * kl; camLook.z += (e.z + Math.cos(e.h) * 7 - camLook.z) * kl; camLook.y = 1.4 * ck; camSnap = false;
   camera.position.copy(camPos); if (dirt && e.v > 8 && !reduceMotion) camera.position.y += Math.sin(clock * 31) * 0.04;
   if (sf > 0.4) { const sh = (sf - 0.4) * (e.boosting ? 0.11 : 0.06); camera.position.x += Math.sin(clock * 47) * sh; camera.position.y += Math.sin(clock * 61 + 1) * sh; }
   camera.lookAt(camLook);
-  const fov = (camera.aspect < 1 ? 82 : 62) + (reduceMotion ? 0 : clamp(e.v, 0, 110) * 0.3 + (e.boosting ? 6 : 0));
+  const fov = (camera.aspect < 1 ? 82 : 62) + (reduceMotion ? 0 : clamp(e.v, 0, 110) * 0.1 + (e.boosting ? 3 : 0));
   if (Math.abs(camera.fov - fov) > 0.05) { camera.fov = fov; camera.updateProjectionMatrix(); }
 }
 
