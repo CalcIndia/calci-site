@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Chart to Trade: Free Trading Basics Course (Education Only) – CalC</title><meta name="description" content="Free trading basics course: 22 animated lessons on past Nifty and Crude Oil Mini charts. Candles, volume, VWAP, breakouts, stop-loss, options and risk. Education only, not advice."><link rel="canonical" href="https://calci.co.in/learn-trading/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="Chart to Trade: free trading basics course"><meta property="og:description" content="Free trading basics course: 22 animated lessons on past Nifty and Crude Oil Mini charts. Candles, volume, VWAP, breakouts, stop-loss, options and risk. Education only, not advice."><meta property="og:url" content="https://calci.co.in/learn-trading/"></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Chart to Trade: Free Trading Basics Course (Education Only) – CalC</title><meta name="description" content="Free trading basics course: 25 animated lessons on past Nifty and Crude Oil Mini charts. Candles, volume, VWAP, breakouts, RSI, stop-loss, options and risk. Education only, not advice."><link rel="canonical" href="https://calci.co.in/learn-trading/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="Chart to Trade: free trading basics course"><meta property="og:description" content="Free trading basics course: 25 animated lessons on past Nifty and Crude Oil Mini charts. Candles, volume, VWAP, breakouts, RSI, stop-loss, options and risk. Education only, not advice."><meta property="og:url" content="https://calci.co.in/learn-trading/"></head><body>
 
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -142,7 +142,7 @@ Futures &amp; options are risky: a SEBI study found 87.7% of individual equity F
   <header class="top">
     <div class="brand">
       <h1>Chart to Trade</h1>
-      <p>Press play. Part 1 teaches chart reading on past Crude Oil Mini charts (more than 30 days old), candle by candle. Part 2 covers options, Nifty and the real-world side of trading. The map lights up to show which idea connects to which.</p>
+      <p>Press play. Part 1 teaches chart reading on past Crude Oil Mini charts (more than 30 days old), candle by candle. Part 2 covers options, Nifty and the real-world side of trading. Part 3 puts two example rules on past Nifty days, to show how a rule is written and checked. The map lights up to show which idea connects to which.</p>
     </div>
     <div class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-lessons" aria-selected="true" data-view="lessons">Lessons</button>
@@ -271,6 +271,14 @@ const NODE2={
 };
 const KC={candle:'#8a96a3',premium:'#0aa9c2',lot:'#7b8794',strike:'#e8862a',time:'#a855f7',news:'#c99a00',slip:'#e8862a',pdhl:'#e8862a',levels:'#6f9c12',rules:'#12a874',mind:'#e0479e',volume:'#1f9a8c',vwap:'#6f9c12',blue:'#2f8bff',ceiling:'#e8862a',floor:'#0aa9c2',breakout:'#c99a00',dip:'#c99a00',
   entry:'#7b8794',stop:'#e04848',target:'#12a874',rsi:'#f07a2d',macd:'#2f8bff',daytype:'#a855f7',decision:'#e0479e',money:'#e04848',call:'#0f9d7a',put:'#d9473f'};
+const NODE3={
+  rsi:{label:'RSI 60/40',x:55,y:30,c:'#ff8a3d'}, trend:{label:'Trend follow',x:165,y:30,c:'#2f9bff'}, bank:{label:'Bank Nifty',x:275,y:30,c:'#d4a50a'},
+  window:{label:'Time window',x:55,y:110,c:'#a855f7'}, newhl:{label:'New high / low',x:165,y:110,c:'#f08c2e'}, adr:{label:'Normal range',x:275,y:110,c:'#7b8794'},
+  signal:{label:'Signal',x:55,y:190,c:'#0fb5cf'}, agree:{label:'Both agree?',x:165,y:190,c:'#e0479e'}, option:{label:'ATM option',x:275,y:190,c:'#12a874'},
+  stop:{label:'Stop',x:55,y:270,c:'#e04848'}, exit:{label:'Exit time',x:165,y:270,c:'#12a874'}, money:{label:'₹ at risk',x:275,y:270,c:'#e04848'},
+  test:{label:'Tested years',x:55,y:350,c:'#7fae1c'}, rules:{label:'Your rules',x:165,y:350,c:'#12a874'}, decision:{label:'Call / Put / Skip',x:275,y:350,c:'#e0479e'}
+};
+Object.assign(KC,{trend:'#2f8bff',bank:'#c99a00',newhl:'#e8862a',window:'#a855f7',adr:'#7b8794',signal:'#0aa9c2',agree:'#e0479e',option:'#0f9d7a',exit:'#12a874',test:'#6f9c12',paper:'#b7791f'});
 
 /* ---------- helpers ---------- */
 const $=s=>document.querySelector(s);
@@ -297,6 +305,7 @@ function prep(d){
     if(i===1){au=u;ad=w}else{au+= (u-au)/14; ad+=(w-ad)/14}
     d.rsi[i]= ad===0?100:100-100/(1+au/ad);
   }
+  {let au=0,ad=0;d.rsiA=new Array(n);for(let i=0;i<n;i++){const ch=i?d.c[i]-d.c[i-1]:0;const u=Math.max(ch,0),w=Math.max(-ch,0);if(i){au+=(u-au)/14;ad+=(w-ad)/14}else{au=u;ad=w}d.rsiA[i]=ad===0?100:100-100/(1+au/ad)}}
   return d;
 }
 function idx(d,t){const m=typeof t==='number'?t:tm(t);for(let i=0;i<d.n;i++){if(d.m[i]>=m)return i}return d.n-1}
@@ -369,11 +378,11 @@ class Chart{
         if(o.label){ctx.fillStyle=C.hi;ctx.textAlign=x>lay.R*0.7?'right':'left';ctx.fillText(o.label,x+(x>lay.R*0.7?-cw-6:cw+6),pv.y+Math.max(10,pv.h-h))}ctx.globalAlpha=1}}
       ctx.fillStyle=C.axis;ctx.textAlign='left';ctx.fillText('Volume',lay.L+2,pv.y+8);
       if(d.novol){ctx.fillStyle='rgba(230,237,243,.55)';ctx.textAlign='center';ctx.fillText('No volume: the Nifty index itself is not traded',(lay.L+lay.R)/2,pv.y+pv.h/2+4)}}
-    if(P.rsi){const pr=P.rsi,Yr=v=>pr.y+(100-v)/100*pr.h;ctx.setLineDash([3,3]);ctx.strokeStyle='rgba(255,255,255,.25)';for(const g of [70,30]){ctx.beginPath();ctx.moveTo(lay.L,Yr(g));ctx.lineTo(lay.R,Yr(g));ctx.stroke()}ctx.setLineDash([]);
-      ctx.fillStyle='rgba(255,138,61,.07)';ctx.fillRect(lay.L,Yr(70),lay.R-lay.L,Yr(30)-Yr(70));
-      ctx.strokeStyle=C.rsi;ctx.lineWidth=1.5;ctx.beginPath();for(let i=this.i0;i<=rv;i++){const x=this.x(i,lay),y=Yr(d.rsi[i]);i===this.i0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.fillStyle=C.axis;ctx.fillText('RSI',lay.L+2,pr.y+8);ctx.fillText('70',lay.R+5,Yr(70));ctx.fillText('30',lay.R+5,Yr(30));
-      if(rv>=this.i0){ctx.fillStyle=C.rsi;ctx.fillText(d.rsi[rv].toFixed(0),lay.R+28,Yr(d.rsi[rv]))}}
+    if(P.rsi){const pr=P.rsi,Yr=v=>pr.y+(100-v)/100*pr.h;const RL=this.rsiLines||[70,30],RA=(this.rsiKey&&d[this.rsiKey])||d.rsi;ctx.setLineDash([3,3]);ctx.strokeStyle=this.rsiLines?'rgba(255,255,255,.45)':'rgba(255,255,255,.25)';for(const g of RL){ctx.beginPath();ctx.moveTo(lay.L,Yr(g));ctx.lineTo(lay.R,Yr(g));ctx.stroke()}ctx.setLineDash([]);
+      ctx.fillStyle='rgba(255,138,61,.07)';ctx.fillRect(lay.L,Yr(RL[0]),lay.R-lay.L,Yr(RL[1])-Yr(RL[0]));
+      ctx.strokeStyle=C.rsi;ctx.lineWidth=1.5;ctx.beginPath();for(let i=this.i0;i<=rv;i++){const x=this.x(i,lay),y=Yr(RA[i]);i===this.i0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+      ctx.fillStyle=C.axis;ctx.fillText('RSI',lay.L+2,pr.y+8);ctx.fillText(String(RL[0]),lay.R+5,Yr(RL[0]));ctx.fillText(String(RL[1]),lay.R+5,Yr(RL[1]));
+      if(rv>=this.i0){ctx.fillStyle=C.rsi;ctx.fillText(RA[rv].toFixed(0),lay.R+28,Yr(RA[rv]))}}
     if(P.macd){const pm=P.macd;let mx=1e-6;for(let i=this.i0;i<=this.i1&&i<d.n;i++)mx=Math.max(mx,Math.abs(d.macd[i]),Math.abs(d.sig[i]));
       const Ym=v=>pm.y+pm.h/2-v/mx*(pm.h/2-3);
       for(let i=this.i0;i<=rv;i++){const x=this.x(i,lay),hv=d.macd[i]-d.sig[i];ctx.fillStyle=hv>=0?'rgba(38,166,154,.6)':'rgba(239,83,80,.6)';const y0=Ym(0),y1=Ym(hv);ctx.fillRect(x-cw/2,Math.min(y0,y1),cw,Math.abs(y1-y0))}
@@ -412,6 +421,8 @@ class Chart{
       ctx.fillStyle=C.entry;ctx.beginPath();ctx.arc(xa,Y(o.entry),4,0,Math.PI*2);ctx.fill()}
     if(o.t==='rr'){const xs=(o._i!=null?this.x(o._i,lay):lay.R-120)+22;const ye=Y(o.entry),ys=Y(o.stop),yt=Y(o.target);ctx.lineWidth=10;ctx.strokeStyle='rgba(255,92,92,.85)';ctx.beginPath();ctx.moveTo(xs,ye);ctx.lineTo(xs,ys);ctx.stroke();ctx.strokeStyle='rgba(52,211,153,.9)';ctx.beginPath();ctx.moveTo(xs+14,ye);ctx.lineTo(xs+14,yt);ctx.stroke();
       const risk=Math.abs(o.entry-o.stop),rew=Math.abs(o.target-o.entry);tag('Risk '+fmt(risk)+' pts',xs+26,(ye+ys)/2,C.stop,'left');tag('Reward '+fmt(rew)+' pts',xs+26,(ye+yt)/2,C.target,'left');tag('Reward ÷ risk = '+(rew/risk).toFixed(1),xs+26,(ye+yt)/2+(yt<ye?-22:22),'#e6edf3','left')}
+    if(o.t==='exit'&&o._i<=rv){const x=this.x(o._i,lay),y=Y(o.price);const col=o.color||'#e6edf3';ctx.fillStyle=col;ctx.strokeStyle='#0b0f14';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);ctx.fill();ctx.stroke();
+      if(o.label){const right=x>lay.R*0.6;tag(o.label,right?x-10:x+10,y+(o.below?18:-18),col,right?'right':'left')}}
     ctx.globalAlpha=1;
   }
 }
@@ -432,6 +443,7 @@ function resolve(o,d){
   if(o.t==='lvl'){r._prices=[o.price]}
   if(o.t==='hud')r._text=o.text;
   if(o.t==='cross'){let n=0;const a=idx(d,o.from),b=idx(d,o.to)-1;let s=Math.sign(d.c[a]-d.vw[a]);for(let i=a+1;i<=b;i++){const t=Math.sign(d.c[i]-d.vw[i]);if(t&&s&&t!==s)n++;if(t)s=t}r._text=(o.prefix||'Price crossed VWAP ')+n+' times';}
+  if(o.t==='exit')r._prices=[o.price];
   return r;
 }
 
@@ -565,18 +577,45 @@ const LESSONS=[
   {m:1,cap:'After a loss, the urge to win it back quickly is strong. A bigger trade, with no plan, leads to a bigger loss, and then the urge grows. This loop is how most trading accounts get emptied.',nodes:['mind','money'],links:[['mind','money']]},
   {m:2,cap:'Its cousin is the fear of missing out: buying after a giant candle because "it keeps going". That means buying at the most stretched point (lesson 11), right before the pullback.',nodes:['mind','decision'],links:[['mind','decision']]},
   {m:3,cap:'Break the loop with [[rules|rules]] you set before the market opens: at most 2 trades a day, stop after 2 losses, and stop once you have a good profit.',nodes:['rules','mind'],links:[['mind','rules']]},
-  {m:3,card:true,cap:'Write your rules on a card next to your screen. Good traders still feel fear and excitement. The difference is that they follow the card anyway. Practise in the Practice room until following the rules feels normal.',nodes:['rules','decision'],links:[['rules','decision']]}]}
+  {m:3,card:true,cap:'Write your rules on a card next to your screen. Good traders still feel fear and excitement. The difference is that they follow the card anyway. Practise in the Practice room until following the rules feels normal.',nodes:['rules','decision'],links:[['rules','decision']]}]},
+ {part:3,title:'RSI 60/40: a momentum rule',day:'N:2026-10-21',view:['09:15','15:15'],panes:{rsi:true,vol:false},rsi60:true,steps:[
+  {upto:'09:45',cap:'Part 3 puts two <b>example rules</b> on real, past Nifty days. They show how a rule is written and checked. They are not tips. The bottom panel is [[rsi|RSI]], worked out from <b>today\'s Nifty candles only</b>, 14 at a time. In this rule the dashed lines are at 60 and 40. While RSI stays between them, the rule does nothing.',nodes:['rsi'],links:[]},
+  {upto:'10:25',ov:[{t:'zone',from:'09:15',to:'10:35',label:'Not counting yet'}],cap:'RSI fell below 40 at 9:50, but this rule ignores the first hour. It waits for 16 of today\'s candles, so its first check is at 10:35, and its [[window|time window]] for a new signal is 10:35 to 13:30. When a rule is allowed to fire is part of the rule.',nodes:['rsi','window'],links:[['rsi','window']]},
+  {upto:'10:35',ov:[{t:'mark',at:'10:35',side:'above',label:'RSI 41 → 37: PUT',color:C.rsi}],cap:'At 10:30 RSI bounced to 41. The 10:35 candle closed at 22,965 and RSI dropped to 37: a fresh cross below 40. Only a fresh cross counts. That is this rule\'s [[signal|signal]]: a put.',nodes:['rsi','signal'],links:[['rsi','signal']]},
+  {upto:'10:40',ov:[{t:'mark',at:'10:35',side:'above',label:'RSI 41 → 37: PUT',color:C.rsi,instant:true},{t:'trade',at:'10:35',entry:22966.6,stop:23028.6,stopLabel:'Stop '}],cap:'The rule enters at the next candle: Nifty 22,967, with an [[option|at-the-money put]]. The [[stop|stop]] is 0.27% of Nifty away, at 23,029: 62 points. There is no target. The most this trade can lose is known before it starts.',nodes:['signal','option','stop','money'],links:[['signal','option'],['signal','stop'],['stop','money']]},
+  {upto:'15:10',ov:[{t:'trade',at:'10:35',entry:22966.6,stop:23028.6,stopLabel:'Stop ',instant:true},{t:'exit',at:'15:10',price:22739.2,label:'Exit 15:15: +227 pts',color:C.target}],cap:'With no target, the rule holds until the [[exit|15:15 exit]], unless the stop is hit first. Nifty fell to 22,650 at 14:45, and the 15:10 candle closed at 22,739: +227 points on this day.',nodes:['exit','money'],links:[['stop','exit'],['option','money']]},
+  {day:'N:2026-10-22',upto:'10:55',ov:[{t:'mark',at:'10:55',side:'below',label:'RSI 58 → 62: CALL',color:C.rsi},{t:'trade',at:'10:55',entry:22741.6,stop:22680.2,stopLabel:'Stop '}],cap:'Most days are not like that. On 22 Oct, RSI crossed above 60 when the 10:55 candle closed (58 → 62): a call signal at Nifty 22,742, with the stop at 22,680.',nodes:['rsi','signal','stop'],links:[['rsi','signal'],['signal','stop']]},
+  {day:'N:2026-10-22',upto:'11:50',ov:[{t:'trade',at:'10:55',entry:22741.6,stop:22680.2,stopLabel:'Stop ',instant:true},{t:'exit',at:'11:45',price:22680.2,label:'Stop hit: −61 pts',color:C.stop,below:true}],cap:'Within 50 minutes Nifty fell back to the stop: −61 points. Rules like this often lose more trades than they win. They can only work if the winning days are much bigger than the losing ones, and the only way to find out is to test the rule on years it was not built on (lesson 12).',nodes:['stop','money','test'],links:[['stop','money'],['test','rules']]}]},
+ {part:3,title:'Trend follow: joining a strong day',day:'N:2026-10-12',view:['09:15','15:15'],panes:{vol:false},steps:[
+  {upto:'10:45',ov:[{t:'hud',text:'From 10:15: Nifty AND Bank Nifty at a new day low (or high)',color:'#2f9bff'},{t:'hud',text:'15-min move ≥ 0.15% · day moved ≥ 0.25 × normal range',color:'#e6edf3'}],cap:'The second example rule, [[trend|Trend follow]], watches two indexes: Nifty and [[bank|Bank Nifty]]. From 10:15, both must make a [[newhl|new low (or high) of the day]] on the same candle, after a strong 15 minutes, on a day that has already moved.',nodes:['trend','bank','newhl'],links:[['trend','newhl'],['bank','newhl']]},
+  {upto:'10:50',ov:[{t:'mark',at:'10:50',side:'above',label:'New day low: PUT',color:'#2f9bff'}],cap:'The 10:50 candle closed at 22,442, a new low for the day, and Bank Nifty made a new low on the same candle. Nifty was down 0.17% in 15 minutes (the rule needs 0.15%) and down 0.59 × a [[adr|normal day\'s range]] (needs 0.25). A normal day\'s range is the average high-to-low of the last 5 days. Every check passes: a put signal.',nodes:['newhl','adr','signal'],links:[['newhl','signal'],['trend','adr']]},
+  {upto:'10:55',ov:[{t:'mark',at:'10:50',side:'above',label:'New day low: PUT',color:'#2f9bff',instant:true},{t:'trade',at:'10:50',entry:22443.8,stop:22504.4,stopLabel:'Stop '}],cap:'The money rules are the same as the RSI rule: enter at the next candle (22,444), put the [[stop|stop]] 0.27% away (22,504), set no target, and [[exit|exit at 15:15]].',nodes:['signal','stop','exit','option'],links:[['signal','stop'],['stop','exit'],['signal','option']]},
+  {upto:'15:10',ov:[{t:'trade',at:'10:50',entry:22443.8,stop:22504.4,stopLabel:'Stop ',instant:true},{t:'exit',at:'15:10',price:22316.9,label:'Exit 15:15: +127 pts',color:C.target,below:true}],cap:'Nifty kept falling, and the 15:10 candle closed at 22,317, near the low of the day: +127 points. On a day that trends, holding to the close is what makes this kind of rule work.',nodes:['exit','money'],links:[['option','money']]},
+  {day:'N:2026-10-23',upto:'10:15',ov:[{t:'mark',at:'10:10',side:'above',label:'New day low: PUT',color:'#2f9bff'},{t:'trade',at:'10:10',entry:22509.2,stop:22570.0,stopLabel:'Stop '}],cap:'23 Oct looked similar. When the 10:10 candle closed, Nifty and Bank Nifty were both at new day lows after a sharp 0.46% fall in 15 minutes. Put signal at 22,509, stop at 22,570.',nodes:['newhl','signal','stop'],links:[['newhl','signal'],['signal','stop']]},
+  {day:'N:2026-10-23',upto:'15:10',ov:[{t:'trade',at:'10:10',entry:22509.2,stop:22570.0,stopLabel:'Stop ',instant:true},{t:'exit',at:'13:40',price:22570.0,label:'Stop hit: −61 pts',color:C.stop}],cap:'This time Nifty bounced and hit the stop at 13:40: −61 points. Then it fell again and closed at 22,517. A stop sometimes takes you out just before the move goes your way. That is the price of having one, and it is still far cheaper than having none.',nodes:['stop','money'],links:[['stop','money']]},
+  {day:'N:2026-10-13',upto:'12:30',ov:[{t:'zone',from:'12:30',to:'13:30',label:'Afternoon window'},{t:'mark',at:'12:30',side:'below',label:'Near the day high: CALL',color:'#2f9bff'}],cap:'The rule has a second part, the "afternoon trend", from 12:30, using Nifty only. The day must have moved at least half a normal day\'s range from the open, and the candle must close within 0.15% of the day\'s high (or low, for a put). On 13 Oct the 12:30 candle closed 0.66 × a normal range up and just under the day\'s high: a call signal.',nodes:['trend','adr','window','signal'],links:[['trend','adr'],['newhl','signal']]},
+  {day:'N:2026-10-13',upto:'15:10',ov:[{t:'mark',at:'12:30',side:'below',label:'Near the day high: CALL',color:'#2f9bff',instant:true},{t:'trade',at:'12:30',entry:22549.5,stop:22488.6,stopLabel:'Stop '},{t:'exit',at:'15:10',price:22699.6,label:'Exit 15:15: +150 pts',color:C.target}],cap:'Entered at 22,550, closed at 22,700: +150 points. RSI also crossed above 60 on this very candle (59 → 61), so both example rules pointed the same way. The next lesson looks at what that does and does not mean.',nodes:['signal','agree','exit'],links:[['signal','agree']]},
+  {kind:'agree',mode:'test',cap:'Before you trust any rule, including these two, it has to pass questions like the ones on this card. A rule that only looks good on the days it was built on is a story, not a rule.',nodes:['test','rules','decision'],links:[['test','rules'],['rules','decision']]}]},
+ {part:3,title:'When two rules agree (or don\'t)',day:'N:2026-09-01',view:['09:15','15:15'],panes:{rsi:true,vol:false},rsi60:true,steps:[
+  {upto:'11:15',ov:[{t:'mark',at:'11:15',side:'below',label:'Trend follow: CALL',color:'#2f9bff'},{t:'trade',at:'11:15',entry:24124.0,stop:24058.9,stopLabel:'Stop '}],cap:'1 Sep. [[trend|Trend follow]] fired first: when the 11:15 candle closed, Nifty and Bank Nifty were both at a new day high. Call signal at 24,124, stop at 24,059.',nodes:['trend','signal','stop'],links:[['trend','newhl'],['newhl','signal']]},
+  {upto:'13:05',ov:[{t:'trade',at:'11:15',entry:24124.0,stop:24058.9,stopLabel:'Stop ',instant:true},{t:'mark',at:'13:05',side:'above',label:'RSI 42 → 38: PUT',color:C.rsi}],cap:'At 13:05 [[rsi|RSI]] crossed below 40 (42 → 38). The RSI rule now says put, while the Trend follow call is still open. The two rules disagree.',nodes:['rsi','signal','agree'],links:[['rsi','signal'],['signal','agree']]},
+  {upto:'13:15',ov:[{t:'exit',at:'13:10',price:24058.9,label:'Stop hit: −65 pts',color:C.stop,below:true},{t:'mark',at:'13:05',side:'above',label:'RSI 42 → 38: PUT',color:C.rsi,instant:true},{t:'trade',at:'13:05',entry:24075.8,stop:24140.8,stopLabel:'Stop '}],cap:'Five minutes later the call hit its stop: −65 points. Each example rule trades at most once a day, so Trend follow is done. The RSI put starts at 24,076, stop 24,141.',nodes:['stop','money','signal'],links:[['stop','money']]},
+  {upto:'15:10',ov:[{t:'exit',at:'13:10',price:24058.9,label:'Stop hit: −65 pts',color:C.stop,below:true,instant:true},{t:'trade',at:'13:05',entry:24075.8,stop:24140.8,stopLabel:'Stop ',instant:true},{t:'exit',at:'15:10',price:23984.4,label:'Exit 15:15: +91 pts',color:C.target,below:true}],cap:'The put ran to the close: 23,984 at 15:10, +91 points. Two rules can point opposite ways on the same day. Decide before the market opens what you will do when that happens. Deciding in the moment is how mistakes happen.',nodes:['exit','rules','decision'],links:[['rules','decision']]},
+  {day:'N:2026-07-30',upto:'12:30',ov:[{t:'mark',at:'12:30',side:'below',label:'Both rules: CALL',color:'#e0479e'},{t:'trade',at:'12:30',entry:24306.6,stop:24241.0,stopLabel:'Stop '}],cap:'30 Jul. Both rules fired on the same candle, in the same direction: Nifty and Bank Nifty hit new day highs, and RSI jumped from 52 to 71. That must be a strong signal?',nodes:['agree','signal','trend','rsi'],links:[['signal','agree'],['rsi','signal']]},
+  {day:'N:2026-07-30',upto:'14:25',ov:[{t:'trade',at:'12:30',entry:24306.6,stop:24241.0,stopLabel:'Stop ',instant:true},{t:'exit',at:'14:20',price:24241.0,label:'Stop hit: −66 pts',color:C.stop,below:true}],cap:'It still lost. Nifty slipped back to the stop at 14:20: −66 points. Two rules agreeing does not make a trade safe.',nodes:['agree','stop','money'],links:[['agree','decision'],['stop','money']]},
+  {kind:'agree',mode:'agree',cap:'Adding a condition like "only when both agree" cuts the number of trades a lot, as this chart of trade counts on past Nifty data shows. Fewer trades can feel safer, but that alone says nothing about results. The only honest way to choose between versions is to test each one on years it was not built on, after costs.',nodes:['agree','test','decision'],links:[['agree','decision'],['test','rules']]},
+  {kind:'card',cap:'Write your rule on a card before the market opens: when it may fire, what the signal is, where you enter, where the stop is, when you exit, and how much you may lose in a day. If you cannot write it on a card, it is not a rule yet. Then paper-trade it in the Practice room.',nodes:['rules','decision'],links:[['rules','decision']]}]}
 ];
 const GATES=['Idea','Exact rules','Test on old data','Test on unseen data','Paper trade (20)','Real money, 1 lot'];
 
 /* ---------- concept map ---------- */
 const svgNS='http://www.w3.org/2000/svg';
 function edgesFor(part,nodes){const s=new Set();for(const L of LESSONS){if((L.part||1)!==part)continue;for(const st of L.steps)for(const e of (st.links||[]))s.add([...e].sort().join('|'))}
-  const base=part===1?['candle|volume','vwap|daytype','daytype|decision','daytype|dip','blue|dip','ceiling|breakout','floor|breakout','breakout|entry','dip|entry','entry|stop','entry|target','stop|money']:['market|premium','strike|premium','time|premium','news|premium','premium|lot','lot|money','order|slip','slip|money','open15|levels','pdhl|levels','levels|decision','mind|rules','rules|decision'];
+  const base=part===3?['rsi|window','trend|newhl','bank|newhl','trend|adr','newhl|signal','rsi|signal','signal|agree','signal|option','option|money','stop|money','signal|stop','stop|exit','test|rules','rules|decision','agree|decision']:part===1?['candle|volume','vwap|daytype','daytype|decision','daytype|dip','blue|dip','ceiling|breakout','floor|breakout','breakout|entry','dip|entry','entry|stop','entry|target','stop|money']:['market|premium','strike|premium','time|premium','news|premium','premium|lot','lot|money','order|slip','slip|money','open15|levels','pdhl|levels','levels|decision','mind|rules','rules|decision'];
   base.forEach(x=>s.add(x.split('|').sort().join('|')));return [...s].map(x=>x.split('|')).filter(([a,b])=>nodes[a]&&nodes[b])}
 let MAP_PART=0;
 function buildMap(part){
-  part=part||1;if(MAP_PART===part)return;MAP_PART=part;const NODE=part===1?window.NODE1:NODE2;
+  part=part||1;if(MAP_PART===part)return;MAP_PART=part;const NODE=part===1?window.NODE1:part===2?NODE2:NODE3;
   const svg=$('#mapSvg');svg.innerHTML='';const g1=document.createElementNS(svgNS,'g');svg.appendChild(g1);
   for(const [a,b] of edgesFor(part,NODE)){const A=NODE[a],B=NODE[b];const p=document.createElementNS(svgNS,'path');
     const mx=(A.x+B.x)/2,my=(A.y+B.y)/2;const bend=(A.x===B.x||A.y===B.y)?14:0;const cx=mx+(A.y===B.y?0:bend),cy=my+(A.x===B.x?0:-bend);
@@ -755,11 +794,42 @@ function drawMind(ctx,W,H,st,t){
 const PL={L:0,S:0,playing:false,timer:null,raf:null,seen:{},chart:null};
 const DRAW={anatomy:[drawAnatomy,'One 5-minute candle'],flow:[drawFlow,'From idea to real money'],opt:[drawOpt,'Crude Oil Mini options · 25 days to expiry'],strike:[drawStrike,'Nifty options · example prices'],
   decay:[drawDecay,'What happens to an option over time'],iv:[drawIV,'Nifty option before and after news'],orders:[drawOrders,'Order types in your broker app'],calendar:[drawCalendar,'Check the calendar every morning'],mind:[drawMind,'The loss loop and how to leave it']};
+
+/* ---------- part 3 drawers (education only: questions, trade counts, a rule card) ---------- */
+function drawAgree(ctx,W,H,st,t){
+  const n=W<600,pad=n?14:22;const a=clamp(t*1.4,0,1);
+  if(st.mode==='test'){
+    txt(ctx,'Before you trust a rule, ask:',pad,n?24:30,n?14:18,'#e6edf3','left',700,'"Space Grotesk", Inter, sans-serif');
+    const qs=['Was it tested on years it was NOT built on?','Does it still make sense after brokerage, taxes and slippage?','How many losses in a row did it have?','What was its worst month?','Does it hold up on different kinds of day?','Have you paper-traded it at least 20 times?'];
+    const top=n?48:66,rh=(H-top-(n?30:40))/qs.length;
+    qs.forEach((q,k)=>{const y=top+rh*k+rh/2;const on=a*qs.length>k;ctx.globalAlpha=on?1:0.25;ctx.strokeStyle='#facc15';ctx.lineWidth=2;ctx.strokeRect(pad,y-(n?8:10),n?16:20,n?16:20);
+      if(on){ctx.strokeStyle='#34d399';ctx.beginPath();ctx.moveTo(pad+4,y);ctx.lineTo(pad+(n?7:9),y+(n?5:6));ctx.lineTo(pad+(n?14:17),y-(n?6:7));ctx.stroke()}
+      ctx.fillStyle='#e6edf3';ctx.font=`600 ${n?12:15}px Inter, sans-serif`;ctx.textAlign='left';ctx.textBaseline='middle';wrapLines(ctx,q,pad+(n?26:34),y,W-pad*2-(n?26:34),n?15:19)});
+    ctx.globalAlpha=1;txt(ctx,n?'Any "no" means: not ready for real money.':'If any answer is "no" or "I don\'t know", the rule is not ready for real money.',pad,H-(n?14:18),n?10.5:12.5,'#8b98a6','left',500);return}
+  txt(ctx,n?'Trades a year · past Nifty data':'More conditions, fewer trades · trades a year on past Nifty data',pad,n?22:26,n?12:15,'#e6edf3','left',700,'"Space Grotesk", Inter, sans-serif');
+  const rows=[['A','Trend follow alone',134],['B','RSI 60/40 alone',238],['C','Only when both fire on the same candle',49],['D','Same day: enter at the second signal',108],['E','Trend follow, only if RSI is past 60/40',99],['F','Both rules, each on its own',367]];
+  const top=n?40:52,rh=(H-top-(n?28:34))/rows.length,lw=n?0:W*0.42,bx=n?pad:pad+lw,bw=W-bx-pad-(n?40:56);
+  rows.forEach(([id,lab,v],k)=>{const y=top+rh*k;const col=id==='C'?'#f59e0b':'#9fd0ff';
+    if(n){txt(ctx,id+'  '+lab,pad,y+rh*0.3,10.5,'#d6dee6','left',600);const w=Math.max(3,bw*v/367*a);ctx.fillStyle=col;ctx.fillRect(bx,y+rh*0.52,w,rh*0.3);txt(ctx,String(v),bx+w+6,y+rh*0.67,11,'#e6edf3','left',700,'"JetBrains Mono", monospace')}
+    else{txt(ctx,id,pad,y+rh/2,14,col,'left',800);txt(ctx,lab,pad+22,y+rh/2,13,'#d6dee6','left',600);const w=Math.max(3,bw*v/367*a);ctx.fillStyle=col;ctx.fillRect(bx,y+rh*0.28,w,rh*0.44);txt(ctx,String(v),bx+w+8,y+rh/2,13,'#e6edf3','left',700,'"JetBrains Mono", monospace')}});
+  txt(ctx,'Trade counts only. Fewer trades is not the same as better results.',pad,H-(n?10:14),n?10:12,'#8b98a6','left',500)}
+function drawCard(ctx,W,H,st,t){
+  const n=W<640,pad=n?12:22;const cw=Math.min(n?W-pad*2:520,W-pad*2),x=(W-cw)/2,y=n?10:16;
+  const lines=[['MY RULE CARD (example)',n?14:17,'#facc15',800],['Rule: RSI 60/40 on Nifty',n?12:14,'#e6edf3',700],
+   ['When: 10:35 to 13:30 · at most 1 trade a day',n?11.5:13.5,'#c9d4dc',600],['Signal: RSI crosses above 60 → call · below 40 → put',n?11.5:13.5,'#c9d4dc',600],
+   ['Enter: at the next candle · smallest size',n?11.5:13.5,'#c9d4dc',600],['Stop: 0.27% of Nifty (a Nifty level, decided first)',n?11.5:13.5,'#c9d4dc',600],
+   ['Exit: 15:15 if the stop is not hit',n?11.5:13.5,'#c9d4dc',600],['Daily limit: stop after 2 losses',n?11.5:13.5,'#c9d4dc',600],
+   ['Before real money: tested on unseen years + 20 paper trades',n?11.5:13.5,'#9fd0ff',700]];
+  const lh=(H-y-(n?40:46))/lines.length;roundRect(ctx,x,y,cw,lh*lines.length+16,14);ctx.fillStyle='#17212b';ctx.fill();ctx.strokeStyle='rgba(255,255,255,.14)';ctx.lineWidth=1;ctx.stroke();
+  const a=clamp(t*1.3,0,1);
+  lines.forEach(([s,size,col,wt],k)=>{if(a*lines.length<k)return;ctx.font=`${wt} ${size}px Inter, sans-serif`;ctx.fillStyle=col;ctx.textAlign='left';ctx.textBaseline='middle';wrapLines(ctx,s,x+16,y+8+lh*(k+0.5),cw-32,size+3)});
+  txt(ctx,'An example card for learning, not a recommendation.',x,Math.min(H-12,y+lh*lines.length+34),n?10:11.5,'#8b98a6','left',500)}
+Object.assign(DRAW,{agree:[drawAgree,'Checking a rule'],card:[drawCard,'Write your rule on a card']});
 function dayLabel(k){const nifty=k.startsWith('N:');const dt=nifty?k.slice(2):k;const lab=new Date(dt+'T00:00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});return (nifty?'Nifty 50 index · ':'Crude Oil Mini · ')+lab+' · 5-min'}
 const reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function speed(){return Number($('#speedSel').value)||1}
 function buildLessonNav(){
-  const nav=$('#lessonNav');nav.innerHTML='';LESSONS.forEach((L,i)=>{if(i===0||(L.part||1)!==(LESSONS[i-1].part||1)){const s=document.createElement('span');s.className='partlab';s.textContent=(L.part||1)===1?'Part 1 · Reading charts':'Part 2 · Options & real trading';nav.appendChild(s)}
+  const nav=$('#lessonNav');nav.innerHTML='';LESSONS.forEach((L,i)=>{if(i===0||(L.part||1)!==(LESSONS[i-1].part||1)){const s=document.createElement('span');s.className='partlab';s.textContent=['','Part 1 · Reading charts','Part 2 · Options & real trading','Part 3 · Two example rules'][L.part||1];nav.appendChild(s)}
     const b=document.createElement('button');b.innerHTML=`<span class="n">${i+1}</span>${L.title}`;b.addEventListener('click',()=>{stopPlay();openLesson(i,0)});nav.appendChild(b)});
 }
 function openLesson(i,s){PL.L=i;location.hash='lesson-'+(i+1);
@@ -781,7 +851,7 @@ function goStep(s,fresh){
     const frame=now=>{const t=clamp((now-t0)/dur,0,1);ch.custom=(ctx,W,H)=>drawer(ctx,W,H,kind==='anatomy'?s:st,t);ch.draw();
       if(t>=1&&!called){called=true;afterReveal()}if(t<1||(kind==='mind'&&!reduceMotion))PL.raf=requestAnimationFrame(frame)};PL.raf=requestAnimationFrame(frame);return}
   ch.custom=null;const dayKey=st.day||L.day;const d=DAYS[dayKey];const sameDay=ch.key===dayKey&&!fresh;const view=st.view||L.view;
-  ch.setDay(dayKey);ch.panes={vol:true,rsi:!!(L.panes&&L.panes.rsi),macd:!!(L.panes&&L.panes.macd)};
+  ch.setDay(dayKey);ch.panes={vol:!(L.panes&&L.panes.vol===false),rsi:!!(L.panes&&L.panes.rsi),macd:!!(L.panes&&L.panes.macd)};ch.rsiLines=L.rsi60?[60,40]:null;ch.rsiKey=L.rsi60?'rsiA':null;
   ch.i0=idx(d,view[0]);ch.i1=Math.min(d.n-1,idx(d,view[1]));
   const target=idx(d,st.upto);$('#lessonDay').textContent=dayLabel(dayKey);
   ch.ov=(st.ov||[]).map(o=>resolve(o,d));ch.ovA=0;
@@ -882,7 +952,7 @@ const STEPS=[
  ['Manage it',['Halfway to target: move stop to entry.','At target: sell.','Exit by 3:15 PM (Nifty) or 11:30 PM (crude).'],9],
  ['Warning signs',['RSI above 70 (or below 30) with shrinking volume.','Long wicks at the same level again and again.','A giant candle after a long move. MACD crossing against you.'],10],
  ['Check yourself',['Angry or in a hurry after a loss? Stop for the day.','Chasing a candle because of fear of missing out? Skip.','Read your rules card before every trade.'],21],
- ['Get better',['Practise 20 trades in the Practice room (crude and Nifty).','Keep a log: rule used, entry, stop, target, result.','Use the app\'s tested trend-follow signal as a second opinion.'],11]];
+ ['Get better',['Practise 20 trades in the Practice room (crude and Nifty).','Keep a log: rule used, entry, stop, target, result.','Write your own rule card (lesson 25) and test it before using it.'],11]];
 function buildSteps(){$('#stepsGrid').innerHTML=STEPS.map(([t,items,L],k)=>`<div class="stepcard"><span class="no">STEP ${k+1}</span><h3>${t}</h3><ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul><button class="go" data-l="${L}">Watch lesson ${L+1} ▶</button></div>`).join('');
   document.querySelectorAll('#stepsGrid .go').forEach(b=>b.addEventListener('click',()=>{showView('lessons');openLesson(Number(b.dataset.l),0)}))}
 
